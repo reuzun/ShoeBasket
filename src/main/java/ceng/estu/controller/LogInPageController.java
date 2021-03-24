@@ -1,31 +1,34 @@
 package ceng.estu.controller;
 
 import ceng.estu.main.Main;
-import ceng.estu.utilities.AlertSystem;
 import ceng.estu.utilities.PageSystem;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
-import javafx.stage.Window;
 
-import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 /**
  * @author reuzun
  */
-public class LogInPageController {
-    @FXML
-    private PasswordField inputPassword;
+public class LogInPageController implements Controllable, Initializable {
+
     @FXML
     private TextField inputUsername;
     @FXML
+    private PasswordField inputPassword;
+    @FXML
     private Button btn_LogIn;
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        inputUsername.requestFocus();
+        inputPassword.toFront();
+    }
 
     @FXML
     public void logIn(ActionEvent actionEvent){
@@ -34,6 +37,21 @@ public class LogInPageController {
 
     @FXML
     public void signUp(ActionEvent actionEvent) throws InterruptedException {
+        String username = inputUsername.getText();
+        String password = inputPassword.getText();
         PageSystem.getPage(btn_LogIn,"SignUpPage");
+        Main.getLastLoader().fillAreas(username, password);
+        Main.setTitle("Sign Up !");
+    }
+
+    public void fillAreas(String username, String password){
+        inputUsername.setText(username);
+        inputPassword.setText(password);
+        inputUsername.toFront(); //To get next free text area.
+    }
+
+    @Override
+    public PasswordField getInputPassword() {
+        return inputPassword;
     }
 }

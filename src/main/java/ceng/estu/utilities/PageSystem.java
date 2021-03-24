@@ -1,7 +1,11 @@
 package ceng.estu.utilities;
 
+import ceng.estu.controller.LogInPageController;
+import ceng.estu.controller.SignUpPageController;
 import ceng.estu.main.Main;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.Window;
@@ -16,7 +20,8 @@ public class PageSystem {
         if(window instanceof Stage){
             ((Stage) window).close();
             try {
-                ((Stage) window).setScene(new Scene(Main.loadFXML(pageId)));
+                Scene scene = new Scene(Main.loadFXML(pageId));
+                ((Stage) window).setScene(scene);
                 ((Stage) window).show();
             }catch (Exception e){
                 ((Stage) window).show();
