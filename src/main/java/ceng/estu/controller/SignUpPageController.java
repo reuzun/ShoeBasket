@@ -2,7 +2,9 @@ package ceng.estu.controller;
 
 import ceng.estu.main.Main;
 import ceng.estu.utilities.AlertSystem;
+import ceng.estu.utilities.ErrorType;
 import ceng.estu.utilities.PageSystem;
+import ceng.estu.utilities.Validator;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
@@ -18,18 +20,19 @@ public class SignUpPageController implements Controllable {
     private TextField input_signUpUsername;
     @javafx.fxml.FXML
     private PasswordField input_signUpPassword;
+    @javafx.fxml.FXML
+    private TextField input_SignUpEmail;
 
     @javafx.fxml.FXML
     public void completeSignUp(ActionEvent actionEvent) {
-        String username = input_signUpUsername.getText();
-        PageSystem.getPage(btn_Complete,"LogInPage");
-        Main.getLastLoader().fillAreas(username, "");
-        try {
-            Main.getLastLoader().getInputPassword().requestFocus();
-        }catch (Exception e){
-             AlertSystem.getAlert("error");
+        if(Validator.isValidEmailAddress(input_SignUpEmail.getText())) {
+            String username = input_signUpUsername.getText();
+            PageSystem.getPage(btn_Complete, "LogInPage");
+            Main.getLastLoader().fillAreas(username, "");
+            Main.setTitle("Welcome !");
+        }else{
+            AlertSystem.getAlert(ErrorType.ERROR,"E-mail is not valid.");
         }
-        Main.setTitle("Welcome !");
     }
 
     public void fillAreas(String username, String password){

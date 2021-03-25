@@ -26,8 +26,6 @@ public class LogInPageController implements Controllable, Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        inputUsername.requestFocus();
-        inputPassword.toFront();
     }
 
     @FXML

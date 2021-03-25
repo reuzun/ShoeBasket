@@ -25,7 +25,7 @@ public class PageSystem {
                 ((Stage) window).show();
             }catch (Exception e){
                 ((Stage) window).show();
-                AlertSystem.getAlert("error");
+                AlertSystem.getAlert(ErrorType.ERROR);
             }
         }
     }

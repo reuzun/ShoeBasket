@@ -8,15 +8,26 @@ import javafx.scene.control.ButtonType;
  */
 public class AlertSystem {
 
-    public static boolean getAlert(String sytemKey){ // systemKey is a joke. :)
+    public static boolean getAlert(ErrorType sytemKey, String... arg) { // systemKey is a joke. :)
+        String errorText = "Büyük başarısızlıklar sözkonusu.";
+        if(arg.length != 0) {
+            if (arg.length > 1) {
+                StringBuilder sb = new StringBuilder();
+                for (String s : arg)
+                    sb.append(s);
+                errorText = sb.toString();
+            } else {
+                errorText = arg[0];
+            }
+        }
         switch (sytemKey){
-            case "error" : {
-                Alert alert = new Alert(Alert.AlertType.ERROR,"Büyük başarısızlıklar sözkonusu.");
+            case ERROR: {
+                Alert alert = new Alert(Alert.AlertType.ERROR,errorText);
                 alert.show();
                 return true;
             }
-            case "confirm" : {
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION,"Büyük başarısızlıklar sözkonusu.");
+            case CONFIRMATION: {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION,errorText);
                 alert.showAndWait();
                 return alert.getResult() == ButtonType.OK;
             }

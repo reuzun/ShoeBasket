@@ -8,8 +8,8 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="252.0" prefWidth="386.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ceng.estu.controller.LogInPageController">
    <children>
-      <PasswordField fx:id="inputPassword" layoutX="143.0" layoutY="119.0" />
       <TextField fx:id="inputUsername" layoutX="143.0" layoutY="61.0" />
+      <PasswordField fx:id="inputPassword" layoutX="143.0" layoutY="119.0" />
       <Text layoutX="38.0" layoutY="78.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username :" />
       <Text layoutX="40.0" layoutY="136.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password :" />
       <Button fx:id="btn_LogIn" layoutX="233.0" layoutY="188.0" mnemonicParsing="false" onAction="#logIn" prefHeight="25.0" prefWidth="59.0" text="Log In" />
