@@ -68,7 +68,7 @@ public class SignUpPageController implements Controllable {
         if(input_signUpPhoneNumber.getText().length() < 7){
             sb.append("Your phone number length must be bigger than 7.\n");
         }
-        if(input_SignUpAdress.getText().length() < 5){
+        if(input_SignUpAdress.getText().length() < 15){
             sb.append("Your address length must be bigger than 20.\n");
         }
 
