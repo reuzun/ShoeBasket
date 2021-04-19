@@ -6,15 +6,16 @@ import ceng.estu.utilities.ErrorType;
 import ceng.estu.utilities.PageSystem;
 import ceng.estu.utilities.Validator;
 import javafx.event.ActionEvent;
+import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-
-import java.util.ArrayList;
-import java.util.List;
+import javafx.util.Duration;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 /**
  * @author reuzun
  */
-public class SignUpPageController implements Controllable {
+public class SignUpPageController implements Controllable, Initializable {
     @javafx.fxml.FXML
     private Button btn_Complete;
     @javafx.fxml.FXML
@@ -79,4 +80,10 @@ public class SignUpPageController implements Controllable {
         }
     }
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        Tooltip tt = new Tooltip("0(xxx)xxx xxx xxx");
+        tt.setShowDelay(Duration.ONE);
+        input_signUpPhoneNumber.setTooltip(tt);
+    }
 }

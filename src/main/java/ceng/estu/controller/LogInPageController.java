@@ -30,7 +30,8 @@ public class LogInPageController implements Controllable, Initializable {
 
     @FXML
     public void logIn(ActionEvent actionEvent){
-
+        //handle authentication from database
+        PageSystem.getPage(btn_LogIn, "UserPage");
     }
 
     @FXML
