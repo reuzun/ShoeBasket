@@ -88,13 +88,13 @@ public class SearchPageController implements Initializable {
             Model model = new Model();
 
             Label label = new Label();
-            //System.out.println(img.getPath());
-            //System.out.println(img.toURI().toURL());
 
+            //adjusting path for intelliJ and jar file
+            String path = new File("").getAbsolutePath().contains("target") ?
+                    new File("").getAbsolutePath()+"\\classes\\images\\"+"shoe.jpg"
+                    : new File("").getAbsolutePath()+"\\target\\classes\\images\\"+"shoe.jpg";
 
-            File img = new File(new File("").getAbsolutePath()+"\\classes\\images\\"+"shoe.jpg");
-
-            System.out.println(img.getAbsolutePath());
+            File img = new File(path);
 
             label.setGraphic(new ImageView(new Image(String.valueOf(img.toURI().toURL()))));
             label.setText(model.toString());

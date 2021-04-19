@@ -26,7 +26,11 @@ public class UserPageController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        try {
+            setSearchPane(new ActionEvent());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
