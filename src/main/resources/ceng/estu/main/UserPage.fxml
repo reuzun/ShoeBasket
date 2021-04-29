@@ -12,17 +12,17 @@
          <children>
             <Label alignment="CENTER" contentDisplay="RIGHT" prefHeight="106.0" prefWidth="227.0" text="Product Search">
                <graphic>
-                  <Button mnemonicParsing="false" onAction="#setSearchPane" text="Button" />
+                  <Button mnemonicParsing="false" onAction="#setSearchPane" text="Search" />
                </graphic>
             </Label>
             <Label alignment="CENTER" contentDisplay="RIGHT" prefHeight="106.0" prefWidth="227.0" text="Last Boughts">
                <graphic>
-                  <Button mnemonicParsing="false" text="Button" />
+                  <Button mnemonicParsing="false" onAction="#lastBoughtsBtn" text="Go!" />
                </graphic>
             </Label>
             <Label alignment="CENTER" contentDisplay="RIGHT" prefHeight="106.0" prefWidth="227.0" text="Update User Data">
                <graphic>
-                  <Button mnemonicParsing="false" text="Button" />
+                  <Button mnemonicParsing="false" text="Update!" />
                </graphic>
             </Label>
             <Label alignment="CENTER_RIGHT" prefHeight="101.0" prefWidth="175.0" text="Hosgeldiniz!" />
