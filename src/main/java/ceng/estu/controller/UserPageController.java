@@ -40,4 +40,9 @@ public class UserPageController implements Initializable {
     }
 
 
+    @FXML
+    public void lastBoughtsBtn(ActionEvent actionEvent) throws IOException {
+        searchPage = new Scene(Main.loadFXML("LastBoughts"));
+        GUIPane.setCenter(searchPage.getRoot());
+    }
 }
