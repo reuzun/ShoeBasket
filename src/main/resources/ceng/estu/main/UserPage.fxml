@@ -25,7 +25,12 @@
                   <Button mnemonicParsing="false" text="Update!" />
                </graphic>
             </Label>
-            <Label alignment="CENTER_RIGHT" prefHeight="101.0" prefWidth="175.0" text="Hosgeldiniz!" />
+            <Label contentDisplay="CENTER" prefHeight="101.0" prefWidth="175.0" text="Hosgeldiniz!" />
+            <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="100.0" prefWidth="258.0" text="Click to go your Basket">
+               <graphic>
+                  <Button mnemonicParsing="false" text="Button" />
+               </graphic>
+            </Label>
          </children>
       </HBox>
       <BorderPane fx:id="GUIPane" layoutY="100.0" prefHeight="622.0" prefWidth="1280.0" />
