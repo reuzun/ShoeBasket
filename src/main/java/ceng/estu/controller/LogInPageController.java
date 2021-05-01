@@ -1,6 +1,8 @@
 package ceng.estu.controller;
 
 import ceng.estu.main.Main;
+import ceng.estu.model.User;
+import ceng.estu.model.UserType;
 import ceng.estu.utilities.PageSystem;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -10,6 +12,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 /**
@@ -32,6 +35,7 @@ public class LogInPageController implements Controllable, Initializable {
     public void logIn(ActionEvent actionEvent){
         //handle authentication from database
         PageSystem.getPage(btn_LogIn, "UserPage");
+        User.setUser("klc4123", UserType.User, "Sefa", "Bozdag", "klc4123@hotmail.com", new ArrayList<>(), new ArrayList<>());
     }
 
     @FXML

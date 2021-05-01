@@ -1,9 +1,9 @@
 package ceng.estu.controller;
 
-import ceng.estu.main.Main;
 import ceng.estu.model.Model;
+import ceng.estu.model.Shoe;
+import ceng.estu.model.User;
 import ceng.estu.utilities.SortType;
-import com.jfoenix.controls.JFXButton;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
@@ -15,7 +15,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Ellipse;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -24,6 +23,7 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * @author reuzun
@@ -133,6 +133,8 @@ public class SearchPageController implements Initializable {
                     sizeBox.getItems().add(j);
                 }
 
+                AtomicReference<Shoe> willAddedShoe = new AtomicReference<>();
+
                 ComboBox<String> colorBox = new ComboBox();
                 sizeBox.setOnAction( (ev)->{
                     //Get colors from db
@@ -151,6 +153,7 @@ public class SearchPageController implements Initializable {
                     int size = sizeBox.getSelectionModel().getSelectedItem();
                     String color = colorBox.getSelectionModel().getSelectedItem();
                     System.out.println("Size : " + size + " Color : " + color + "Model is : " + model.toString() +" Shoe is ...");
+                    willAddedShoe.set(new Shoe(4, 4, 44, "Black", 44));
                 }  );
 
 
@@ -160,7 +163,8 @@ public class SearchPageController implements Initializable {
                 Button addBasketBtn = new Button("Add To Basket");
 
                 addBasketBtn.setOnAction( (evv)->{
-                    System.out.println();
+                    User.user.getBasket().add(willAddedShoe.get());
+                    System.out.println(User.user.getBasket().toString());
                 } );
 
                 vbox2.getChildren().addAll(new Text(model.toString()), hBox2, addBasketBtn);
