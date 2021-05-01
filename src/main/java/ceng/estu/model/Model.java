@@ -8,6 +8,8 @@ public class Model {
     public Model() {
     }
 
+
+
     int modelID;
     String modelName;
     String brandName;
@@ -22,6 +24,17 @@ public class Model {
         this.type = type;
         this.price = price;
         this.customerRating = customerRating;
+    }
+
+    @Override
+    public String toString() {
+        return
+                "Model : " + modelName +
+                "\nBrand :" + brandName +
+                "\nType : " + type +
+                "\nPrice : " + price +
+                "\nRating : " + customerRating
+                ;
     }
 
     /*

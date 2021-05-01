@@ -1,0 +1,5 @@
+1-) Database section (Connectivity between database model and front-end)
+2-) SearchPage db connection --> LastBoughts db connection --> UpdateUserData db connection
+3-) LogIn - SignUp db connection
+4-) Admin Log-In
+5-) Admin abilities (Model add, update ..etc)

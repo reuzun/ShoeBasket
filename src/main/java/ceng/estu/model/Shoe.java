@@ -19,4 +19,14 @@ public class Shoe {
         this.count = count;
     }
 
+    @Override
+    public String toString() {
+        return
+                "\nshoeID=" + shoeID +
+                "\nmodelID=" + modelID +
+                "\nsize=" + size +
+                "\ncolor='" + color +
+                "\ncount=" + count;
+    }
+
 }

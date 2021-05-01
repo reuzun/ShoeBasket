@@ -112,7 +112,7 @@ public class SearchPageController implements Initializable {
             //btn.setStyle("-fx-background-color: #99adb5;-fx-min-width: 75px;-fx-text-alignment: center");
 
             btn.setLayoutX(180);
-            btn.setLayoutY(135);
+            btn.setLayoutY(155);
 
 
 
