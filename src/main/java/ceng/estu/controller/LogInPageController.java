@@ -34,8 +34,15 @@ public class LogInPageController implements Controllable, Initializable {
     @FXML
     public void logIn(ActionEvent actionEvent){
         //handle authentication from database
-        PageSystem.getPage(btn_LogIn, "UserPage");
         User.setUser("klc4123", UserType.User, "Sefa", "Bozdag", "klc4123@hotmail.com", new ArrayList<>(), new ArrayList<>());
+
+        //PageSystem.getPage(btn_LogIn, "UserPage");
+        PageSystem.getPage(btn_LogIn, "AdminPage");
+
+        /*if(User.user.getType() == UserType.User)
+            PageSystem.getPage(btn_LogIn, "UserPage");
+        else
+            PageSystem.getPage(btn_LogIn, "AdminPage");*/
     }
 
     @FXML

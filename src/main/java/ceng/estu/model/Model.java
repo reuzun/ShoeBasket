@@ -10,12 +10,61 @@ public class Model {
 
 
 
-    int modelID;
-    String modelName;
-    String brandName;
-    ModelType type;
-    double price;
-    double customerRating;
+    public int modelID;
+    public String modelName;
+    public String brandName;
+
+    public int getModelID() {
+        return modelID;
+    }
+
+    public void setModelID(int modelID) {
+        this.modelID = modelID;
+    }
+
+    public String getModelName() {
+        return modelName;
+    }
+
+    public void setModelName(String modelName) {
+        this.modelName = modelName;
+    }
+
+    public String getBrandName() {
+        return brandName;
+    }
+
+    public void setBrandName(String brandName) {
+        this.brandName = brandName;
+    }
+
+    public ModelType getType() {
+        return type;
+    }
+
+    public void setType(ModelType type) {
+        this.type = type;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public double getCustomerRating() {
+        return customerRating;
+    }
+
+    public void setCustomerRating(double customerRating) {
+        this.customerRating = customerRating;
+    }
+
+    public ModelType type;
+    public double price;
+    public double customerRating;
 
     public Model(int modelID, String modelName, String brandName, ModelType type, double price, double customerRating) {
         this.modelID = modelID;
