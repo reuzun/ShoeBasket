@@ -79,8 +79,9 @@ public class AdminManagePageController implements Initializable {
         tv.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         tv.prefHeightProperty().bind(searchStage.heightProperty());
         tv.prefWidthProperty().bind(searchStage.widthProperty());
-        tv.setMinHeight(300);
-        tv.setMinWidth(500);
+
+        searchPane.setMinWidth(750);
+        searchPane.setMinHeight(400);
 
         TableColumn<Model, Integer> column1 = new TableColumn<>("ModelID");
         column1.setCellValueFactory(new PropertyValueFactory<>("modelID"));
@@ -115,8 +116,11 @@ public class AdminManagePageController implements Initializable {
         tv.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         tv.prefHeightProperty().bind(searchStage.heightProperty());
         tv.prefWidthProperty().bind(searchStage.widthProperty());
+        /*
         tv.setMinHeight(300);
-        tv.setMinWidth(500);
+        tv.setMinWidth(500);*/
+        searchPane.setMinWidth(750);
+        searchPane.setMinHeight(400);
 
         TableColumn<Shoe, Integer> column1 = new TableColumn<>("ModelID");
         column1.setCellValueFactory(new PropertyValueFactory<>("modelID"));
