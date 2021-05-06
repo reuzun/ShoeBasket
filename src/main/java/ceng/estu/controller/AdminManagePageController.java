@@ -1,5 +1,6 @@
 package ceng.estu.controller;
 
+import ceng.estu.main.Main;
 import ceng.estu.model.Model;
 import ceng.estu.model.ModelType;
 import ceng.estu.model.Shoe;
@@ -12,10 +13,15 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -63,18 +69,55 @@ public class AdminManagePageController implements Initializable {
     }
 
     @javafx.fxml.FXML
-    public void updateShoe(ActionEvent actionEvent) {
+    public void updateShoe(ActionEvent actionEvent) throws IOException, URISyntaxException {
         //updatePane.getChildren().add(txt); can be edited dynamically
+        Shoe shoe = new Shoe(4,7,34,"Black",123);
+        Scene scene = new Scene(Main.loadFXML("UpdateShoePage"));
+        ((UpdateShoePageController)Main.getLastLoader()).modelID.setText(String.valueOf(shoe.getModelID()));
+        ((UpdateShoePageController)Main.getLastLoader()).shoeID.setText(String.valueOf(shoe.getShoeID()));
+        ((UpdateShoePageController)Main.getLastLoader()).size.setText(String.valueOf(shoe.getSize()));
+        ((UpdateShoePageController)Main.getLastLoader()).color.setText(String.valueOf(shoe.getColor()));
+        ((UpdateShoePageController)Main.getLastLoader()).count.setText(String.valueOf(shoe.getCount()));
+        String path2 = new File("").getAbsolutePath().contains("target") ?
+                new File("").getAbsolutePath()+"\\classes\\images\\"+"shoe.jpg"
+                : new File("").getAbsolutePath()+"\\target\\classes\\images\\"+"shoe.jpg";
+        File file = new File(path2);
+        ((UpdateShoePageController)Main.getLastLoader()).imageView.setImage(new Image(String.valueOf(file.toURI().toURL())));
+
+        updateStage.setScene(scene);
+
         updateStage.show();
+
     }
 
+    static Object[] updateModelValues = new Object[6];
     @javafx.fxml.FXML
-    public void updateModel(ActionEvent actionEvent) {
+    public void updateModel(ActionEvent actionEvent) throws IOException {
+        //get model from modelID
+
+
+        Model model = new Model(4,"asdasd","asdasd",ModelType.Boot,148.57,-1.0);
+        Scene scene = new Scene(Main.loadFXML("UpdateModelPage"));
+        ((UpdateModelPageController)Main.getLastLoader()).modelID.setText(String.valueOf(model.getModelID()));
+        ((UpdateModelPageController)Main.getLastLoader()).modelName.setText(String.valueOf(model.getModelName()));
+        ((UpdateModelPageController)Main.getLastLoader()).brandName.setText(String.valueOf(model.getBrandName()));
+        ((UpdateModelPageController)Main.getLastLoader()).type.setText(String.valueOf(model.getType()));
+        ((UpdateModelPageController)Main.getLastLoader()).price.setText(String.valueOf(model.getPrice()));
+        ((UpdateModelPageController)Main.getLastLoader()).rating.setText(String.valueOf(model.getCustomerRating()));
+        String path2 = new File("").getAbsolutePath().contains("target") ?
+                new File("").getAbsolutePath()+"\\classes\\images\\"+"shoe.jpg"
+                : new File("").getAbsolutePath()+"\\target\\classes\\images\\"+"shoe.jpg";
+        File file = new File(path2);
+        ((UpdateModelPageController)Main.getLastLoader()).imageView.setImage(new Image(String.valueOf(file.toURI().toURL())));
+
+        updateStage.setScene(scene);
+
         updateStage.show();
     }
 
     @javafx.fxml.FXML
     public void searchModel(ActionEvent actionEvent) {
+        searchPane.getChildren().clear();
         TableView<Model> tv = new TableView<>();
         tv.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         tv.prefHeightProperty().bind(searchStage.heightProperty());
@@ -103,6 +146,7 @@ public class AdminManagePageController implements Initializable {
 
         tv.getColumns().addAll(column1,column2,column3,column4,column5,column6);
 
+        //get datas from db
         tv.getItems().add(new Model(4,"asdasd","asdasd",ModelType.Boot,148.57,-1.0));
         tv.getItems().add(new Model(42,"asdasasdd","asdaasdsd",ModelType.Boot,12348.57,-123.0));
 
@@ -112,6 +156,7 @@ public class AdminManagePageController implements Initializable {
     }
     @FXML
     public void searchShoe(ActionEvent actionEvent) {
+        searchPane.getChildren().clear();
         TableView<Shoe> tv = new TableView<>();
         tv.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         tv.prefHeightProperty().bind(searchStage.heightProperty());
@@ -139,6 +184,7 @@ public class AdminManagePageController implements Initializable {
 
         tv.getColumns().addAll(column1,column2,column3,column4,column5);
 
+        //get datas from db
         tv.getItems().add(new Shoe(4,7,34,"Black",123));
         tv.getItems().add(new Shoe(42,7,36,"White",126));
 
