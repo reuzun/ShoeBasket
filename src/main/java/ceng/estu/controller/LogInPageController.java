@@ -36,8 +36,8 @@ public class LogInPageController implements Controllable, Initializable {
         //handle authentication from database
         User.setUser("klc4123", UserType.User, "Sefa", "Bozdag", "klc4123@hotmail.com", new ArrayList<>(), new ArrayList<>());
 
-        //PageSystem.getPage(btn_LogIn, "UserPage");
-        PageSystem.getPage(btn_LogIn, "AdminPage");
+        PageSystem.getPage(btn_LogIn, "UserPage");
+        //PageSystem.getPage(btn_LogIn, "AdminPage");
 
         /*if(User.user.getType() == UserType.User)
             PageSystem.getPage(btn_LogIn, "UserPage");

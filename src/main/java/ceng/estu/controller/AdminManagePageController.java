@@ -4,6 +4,7 @@ import ceng.estu.main.Main;
 import ceng.estu.model.Model;
 import ceng.estu.model.ModelType;
 import ceng.estu.model.Shoe;
+import ceng.estu.utilities.Utilities;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -78,9 +79,10 @@ public class AdminManagePageController implements Initializable {
         ((UpdateShoePageController)Main.getLastLoader()).size.setText(String.valueOf(shoe.getSize()));
         ((UpdateShoePageController)Main.getLastLoader()).color.setText(String.valueOf(shoe.getColor()));
         ((UpdateShoePageController)Main.getLastLoader()).count.setText(String.valueOf(shoe.getCount()));
-        String path2 = new File("").getAbsolutePath().contains("target") ?
-                new File("").getAbsolutePath()+"\\classes\\images\\"+"shoe.jpg"
-                : new File("").getAbsolutePath()+"\\target\\classes\\images\\"+"shoe.jpg";
+
+        Model modelOfShoe  = new Model(); // get model of shoe from db and give it parameter as next line
+        String path2 = Utilities.getImagePath( ModelType.Boot );
+
         File file = new File(path2);
         ((UpdateShoePageController)Main.getLastLoader()).imageView.setImage(new Image(String.valueOf(file.toURI().toURL())));
 
@@ -104,9 +106,7 @@ public class AdminManagePageController implements Initializable {
         ((UpdateModelPageController)Main.getLastLoader()).type.setText(String.valueOf(model.getType()));
         ((UpdateModelPageController)Main.getLastLoader()).price.setText(String.valueOf(model.getPrice()));
         ((UpdateModelPageController)Main.getLastLoader()).rating.setText(String.valueOf(model.getCustomerRating()));
-        String path2 = new File("").getAbsolutePath().contains("target") ?
-                new File("").getAbsolutePath()+"\\classes\\images\\"+"shoe.jpg"
-                : new File("").getAbsolutePath()+"\\target\\classes\\images\\"+"shoe.jpg";
+        String path2 = Utilities.getImagePath( model.getType() );
         File file = new File(path2);
         ((UpdateModelPageController)Main.getLastLoader()).imageView.setImage(new Image(String.valueOf(file.toURI().toURL())));
 

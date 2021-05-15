@@ -1,9 +1,11 @@
 package ceng.estu.controller;
 
 import ceng.estu.model.Model;
+import ceng.estu.model.ModelType;
 import ceng.estu.model.Shoe;
 import ceng.estu.model.User;
 import ceng.estu.utilities.SortType;
+import ceng.estu.utilities.Utilities;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
@@ -57,7 +59,7 @@ public class SearchPageController implements Initializable {
             AnchorPane container = new AnchorPane();
 
             Label label = new Label();
-            label.setGraphic(new ImageView(new Image("file:\\\\\\C:\\Users\\Efe\\Documents\\IntelliJProjects\\ShoeBasket\\src\\main\\resources\\images\\shoe.jpg")));
+            label.setGraphic(new ImageView(new Image("file:\\\\\\C:\\Users\\Efe\\Documents\\IntelliJProjects\\ShoeBasket\\src\\main\\resources\\images\\sneaker.jpg")));
             label.setText(new Model().toString());
 
             Button btn = new Button("buy");
@@ -91,18 +93,31 @@ public class SearchPageController implements Initializable {
             container.setMinWidth(290);
             container.setMinHeight(200);
             container.setStyle("-fx-border-color: gray;-fx-padding: 4px;-fx-background-color: #ecdede;-fx-border-radius: 40px;");
-            Model model = new Model();
+
+            /* Test case for images of printing random shoes.
+            int a = (int) (Math.random()*3);
+            ModelType b = null;
+            switch (a){
+                case 0: b = ModelType.Boot;break;
+                case 1: b = ModelType.Heel;break;
+                case 2: b = ModelType.Sneaker;break;
+                default: break;
+            }
+            */
+
+            Model model = new Model(4,"asdasd","asdasd",ModelType.Sneaker,148.57,-1.0);
 
             Label label = new Label();
 
             //adjusting path for intelliJ and jar file
-            String path = new File("").getAbsolutePath().contains("target") ?
-                    new File("").getAbsolutePath()+"\\classes\\images\\"+"shoe.jpg"
-                    : new File("").getAbsolutePath()+"\\target\\classes\\images\\"+"shoe.jpg";
+            String path = Utilities.getImagePath( model.getType() );
+            //System.out.println("type : " + ModelType.Boot.toString().toLowerCase());
 
             File img = new File(path);
 
             ImageView iv = new ImageView(new Image(String.valueOf(img.toURI().toURL())));
+            iv.setFitHeight(150);
+            iv.setFitWidth(150);
             iv.setClip(new Ellipse(70,70,70,70));
             label.setGraphic(iv);
             label.setText(model.toString());
@@ -170,9 +185,7 @@ public class SearchPageController implements Initializable {
                 vbox2.getChildren().addAll(new Text(model.toString()), hBox2, addBasketBtn);
 
 
-                String path2 = new File("").getAbsolutePath().contains("target") ?
-                        new File("").getAbsolutePath()+"\\classes\\images\\"+"shoe.jpg"
-                        : new File("").getAbsolutePath()+"\\target\\classes\\images\\"+"shoe.jpg";
+                String path2 = Utilities.getImagePath( model.getType() );
 
                 File img2 = new File(path2);
                 ImageView iv2 = null;
