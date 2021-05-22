@@ -1,8 +1,11 @@
 package ceng.estu.controller;
 
+import ceng.estu.database.DBHandler;
 import ceng.estu.main.Main;
 import ceng.estu.model.User;
 import ceng.estu.model.UserType;
+import ceng.estu.utilities.AlertSystem;
+import ceng.estu.utilities.ErrorType;
 import ceng.estu.utilities.PageSystem;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -34,10 +37,21 @@ public class LogInPageController implements Controllable, Initializable {
     @FXML
     public void logIn(ActionEvent actionEvent){
         //handle authentication from database
-        User.setUser("klc4123", UserType.User, "Sefa", "Bozdag", "klc4123@hotmail.com", new ArrayList<>(), new ArrayList<>());
+        //User.setUser("klc4123", "parola123", UserType.User, "Sefa", "Bozdag", "klc4123@hotmail.com", new ArrayList<>(), new ArrayList<>());
 
-        PageSystem.getPage(btn_LogIn, "UserPage");
-        //PageSystem.getPage(btn_LogIn, "AdminPage");
+        try {
+            DBHandler.logIn(inputUsername.getText(), inputPassword.getText());
+        }catch (Exception e){
+            AlertSystem.getAlert(ErrorType.ERROR, "Wrong Username or Password");
+            return;
+        }
+
+
+
+        if(User.user.getType().equals(UserType.User))
+            PageSystem.getPage(btn_LogIn, "UserPage");
+        else
+            PageSystem.getPage(btn_LogIn, "AdminPage");
 
         /*if(User.user.getType() == UserType.User)
             PageSystem.getPage(btn_LogIn, "UserPage");

@@ -59,6 +59,7 @@ public class User {
     }
 
     private String username;
+    private String password;
     private UserType type;
     private String name;
     private String surname;
@@ -84,8 +85,9 @@ public class User {
     private List<String> addresses;
     private List<String> phoneNos;
 
-    private User(String username, UserType type, String name, String surname, String email, List<String> addresses, List<String> phoneNos) {
+    private User(String username, String password, UserType type, String name, String surname, String email, List<String> addresses, List<String> phoneNos) {
         this.username = username;
+        this.password = password;
         this.type = type;
         this.name = name;
         this.surname = surname;
@@ -97,8 +99,8 @@ public class User {
         user = this;
     }
 
-    public static void setUser(String username, UserType type, String name, String surname, String email, List<String> addresses, List<String> phoneNos) {
-        user = new User(username, type, name, surname, email, addresses, phoneNos);
+    public static void setUser(String username, String password, UserType type, String name, String surname, String email, List<String> addresses, List<String> phoneNos) {
+        user = new User(username, password, type, name, surname, email, addresses, phoneNos);
         //return user;
     }
 
