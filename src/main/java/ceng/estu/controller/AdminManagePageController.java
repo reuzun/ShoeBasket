@@ -1,5 +1,6 @@
 package ceng.estu.controller;
 
+import ceng.estu.database.DBHandler;
 import ceng.estu.main.Main;
 import ceng.estu.model.Model;
 import ceng.estu.model.ModelType;
@@ -9,21 +10,18 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.sql.SQLException;
+import java.util.List;
 import java.util.ResourceBundle;
 
 /**
@@ -31,13 +29,13 @@ import java.util.ResourceBundle;
  */
 public class AdminManagePageController implements Initializable {
     @FXML
-    public ChoiceBox shoeColorChoiceBox;
+    public ChoiceBox<String> shoeColorChoiceBox;
     @FXML
-    public ChoiceBox shoeSizeChoiceBox;
+    public ChoiceBox<Integer> shoeSizeChoiceBox;
     @FXML
     public TextField shoeCount;
     @FXML
-    public ChoiceBox modelType;
+    public ChoiceBox<String> modelType;
     @FXML
     public TextField price;
     @FXML
@@ -67,12 +65,22 @@ public class AdminManagePageController implements Initializable {
         Scene scene2 = new Scene(searchPane);
         searchStage.setScene(scene2);
         searchStage.setTitle("SearchDB");
+
+        shoeColorChoiceBox.getItems().addAll("Yellow", "Green", "Gray", "Black", "Red", "Blue");
+        modelType.getItems().addAll("Sneaker", "Heel", "Boot");
+
+        for(int i = 33 ; i < 45 ; i++)
+            shoeSizeChoiceBox.getItems().add(i);
+
+
     }
 
     @javafx.fxml.FXML
-    public void updateShoe(ActionEvent actionEvent) throws IOException, URISyntaxException {
+    public void updateShoe(ActionEvent actionEvent) throws IOException, URISyntaxException, SQLException {
         //updatePane.getChildren().add(txt); can be edited dynamically
-        Shoe shoe = new Shoe(4,7,34,"Black",123);
+        //Shoe shoe = new Shoe(4,7,34,"Black",123);
+        Shoe shoe = DBHandler.getShoeByShoeId( updateRemoveShoeID.getText() );
+
         Scene scene = new Scene(Main.loadFXML("UpdateShoePage"));
         ((UpdateShoePageController)Main.getLastLoader()).modelID.setText(String.valueOf(shoe.getModelID()));
         ((UpdateShoePageController)Main.getLastLoader()).shoeID.setText(String.valueOf(shoe.getShoeID()));
@@ -80,8 +88,10 @@ public class AdminManagePageController implements Initializable {
         ((UpdateShoePageController)Main.getLastLoader()).color.setText(String.valueOf(shoe.getColor()));
         ((UpdateShoePageController)Main.getLastLoader()).count.setText(String.valueOf(shoe.getCount()));
 
-        Model modelOfShoe  = new Model(); // get model of shoe from db and give it parameter as next line
-        String path2 = Utilities.getImagePath( ModelType.Boot );
+        int modelId = DBHandler.getModelIdByShoeId( shoe.getShoeID() );
+        Model model = DBHandler.getModelByModelId(modelId);
+
+        String path2 = Utilities.getImagePath( model.getType() );
 
         File file = new File(path2);
         ((UpdateShoePageController)Main.getLastLoader()).imageView.setImage(new Image(String.valueOf(file.toURI().toURL())));
@@ -97,8 +107,8 @@ public class AdminManagePageController implements Initializable {
     public void updateModel(ActionEvent actionEvent) throws IOException {
         //get model from modelID
 
+        Model model = DBHandler.getModelByModelId( Integer.parseInt(updateRemoveModelID.getText()) );
 
-        Model model = new Model(4,"asdasd","asdasd",ModelType.Boot,148.57,-1.0);
         Scene scene = new Scene(Main.loadFXML("UpdateModelPage"));
         ((UpdateModelPageController)Main.getLastLoader()).modelID.setText(String.valueOf(model.getModelID()));
         ((UpdateModelPageController)Main.getLastLoader()).modelName.setText(String.valueOf(model.getModelName()));
@@ -116,12 +126,12 @@ public class AdminManagePageController implements Initializable {
     }
 
     @javafx.fxml.FXML
-    public void searchModel(ActionEvent actionEvent) {
+    public void searchModel(ActionEvent actionEvent) throws SQLException {
         searchPane.getChildren().clear();
         TableView<Model> tv = new TableView<>();
         tv.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        tv.prefHeightProperty().bind(searchStage.heightProperty());
-        tv.prefWidthProperty().bind(searchStage.widthProperty());
+        tv.prefHeightProperty().bind(searchStage.heightProperty().subtract(17));
+        tv.prefWidthProperty().bind(searchStage.widthProperty().subtract(17));
 
         searchPane.setMinWidth(750);
         searchPane.setMinHeight(400);
@@ -147,20 +157,32 @@ public class AdminManagePageController implements Initializable {
         tv.getColumns().addAll(column1,column2,column3,column4,column5,column6);
 
         //get datas from db
+        /*
         tv.getItems().add(new Model(4,"asdasd","asdasd",ModelType.Boot,148.57,-1.0));
         tv.getItems().add(new Model(42,"asdasasdd","asdaasdsd",ModelType.Boot,12348.57,-123.0));
+        */
 
-        searchPane.getChildren().add(tv);
+        List<Model> list = DBHandler.getModelsByKeyValues("str", "BrandName", brandName.getText(),
+                "strlike","ModelName", modelName.getText(),
+                "str","Type", String.valueOf( modelType.getSelectionModel().getSelectedItem() )
+        );
+
+        tv.getItems().addAll( list );
+
+        ScrollPane sp = new ScrollPane();
+        sp.setContent(tv);
+
+        searchPane.getChildren().add(sp);
 
         searchStage.show();
     }
     @FXML
-    public void searchShoe(ActionEvent actionEvent) {
+    public void searchShoe(ActionEvent actionEvent) throws SQLException {
         searchPane.getChildren().clear();
         TableView<Shoe> tv = new TableView<>();
         tv.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        tv.prefHeightProperty().bind(searchStage.heightProperty());
-        tv.prefWidthProperty().bind(searchStage.widthProperty());
+        tv.prefHeightProperty().bind(searchStage.heightProperty().subtract(17));
+        tv.prefWidthProperty().bind(searchStage.widthProperty().subtract(17));
         /*
         tv.setMinHeight(300);
         tv.setMinWidth(500);*/
@@ -185,10 +207,20 @@ public class AdminManagePageController implements Initializable {
         tv.getColumns().addAll(column1,column2,column3,column4,column5);
 
         //get datas from db
-        tv.getItems().add(new Shoe(4,7,34,"Black",123));
-        tv.getItems().add(new Shoe(42,7,36,"White",126));
+        /*tv.getItems().add(new Shoe(4,7,34,"Black",123));
+        tv.getItems().add(new Shoe(42,7,36,"White",126));*/
 
-        searchPane.getChildren().add(tv);
+        List<Shoe> list = DBHandler.getShoesByKeyValues("int", "modelId", addShoeModelID.getText(),
+                "str","Color", shoeColorChoiceBox.getSelectionModel().getSelectedItem(),
+                "int","Size", String.valueOf( shoeSizeChoiceBox.getSelectionModel().getSelectedItem() )
+        );
+
+        tv.getItems().addAll( list );
+
+        ScrollPane sp = new ScrollPane();
+        sp.setContent(tv);
+
+        searchPane.getChildren().add(sp);
 
         searchStage.show();
     }
@@ -196,8 +228,6 @@ public class AdminManagePageController implements Initializable {
     @javafx.fxml.FXML
     public void calculateQueries(ActionEvent actionEvent) {
     }
-
-
 
 
     @javafx.fxml.FXML

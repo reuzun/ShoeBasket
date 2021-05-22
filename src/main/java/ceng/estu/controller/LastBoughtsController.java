@@ -2,9 +2,7 @@ package ceng.estu.controller;
 
 import ceng.estu.database.DBHandler;
 import ceng.estu.model.Model;
-import ceng.estu.model.ModelType;
 import ceng.estu.model.Shoe;
-import ceng.estu.model.User;
 import ceng.estu.utilities.Utilities;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -12,11 +10,9 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -31,7 +27,6 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * @author reuzun
@@ -109,7 +104,7 @@ public class LastBoughtsController implements Initializable {
 
         tv.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
-                System.out.println(tv.getSelectionModel().getSelectedItem());
+                //System.out.println(tv.getSelectionModel().getSelectedItem());
             }
             /*Stage stage = new Stage();
             BorderPane pane = new BorderPane();
@@ -134,7 +129,7 @@ public class LastBoughtsController implements Initializable {
 
             Stage buyStage = new Stage();
 
-            Model model = DBHandler.getModelUsingModelID ( tv.getSelectionModel().getSelectedItem().getModelID() );
+            Model model = DBHandler.getModelByModelId( tv.getSelectionModel().getSelectedItem().getModelID() );
 
             ComboBox<Integer> starBox = new ComboBox();
             starBox.getItems().addAll(0,1,2,3,4,5);

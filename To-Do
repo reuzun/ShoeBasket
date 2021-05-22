@@ -1,5 +1,8 @@
-1-) Database section (Connectivity between database model and front-end)
-2-) SearchPage db connection --> LastBoughts db connection --> UpdateUserData db connection
-3-) LogIn - SignUp db connection
-4-) Admin Log-In
-5-) Admin abilities (Model add, update ..etc)
+1 - ) Admin panel Database Connection.
+2 - ) Search model/shoe Function.
+3 - ) Update UserData Page + Database Connection +
+ Address / phone append
+4 - ) SearchPage while buying select size and color according to size.
+5 - ) Basket page +
+ Basket Database connection +
+  Basket Item buy DB connection

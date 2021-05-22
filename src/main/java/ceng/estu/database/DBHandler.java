@@ -3,6 +3,7 @@ package ceng.estu.database;
 import ceng.estu.model.*;
 import ceng.estu.utilities.AlertSystem;
 import ceng.estu.utilities.ErrorType;
+import javafx.scene.control.TextField;
 
 import javax.swing.plaf.nimbus.State;
 import java.sql.*;
@@ -122,6 +123,7 @@ public class DBHandler {
         return modelList;
     }
 
+    @Deprecated(since = "We dont know thy we write it :D")
     public static List<Model> boughtModels() throws SQLException {
         List<Model> modelList = new ArrayList<>();
         Statement st = con.createStatement();
@@ -157,7 +159,7 @@ public class DBHandler {
         return type.equals("User") ? UserType.User : UserType.Admin;
     }
 
-    public static Model getModelUsingModelID(int modelID) {
+    public static Model getModelByModelId(int modelID) {
         try {
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery("SELECT * FROM `model` where modelId = " + modelID);
@@ -266,5 +268,127 @@ public class DBHandler {
             AlertSystem.getAlert(ErrorType.ERROR, "Something is huge failed about database. Please contact US!");
         }
         return false;
+    }
+
+    public static Shoe getShoeByShoeId(String shoeId) throws SQLException {
+        Statement st = con.createStatement();
+        ResultSet rs = st.executeQuery("SELECT * FROM shoe WHERE shoeId = " + shoeId);
+        rs.next();
+
+        return new Shoe(
+                rs.getInt(1),
+                rs.getInt(2),
+                rs.getInt(3),
+                rs.getNString(4),
+                rs.getInt(5)
+                );
+
+    }
+
+    public static int getModelIdByShoeId(int shoeId) throws SQLException {
+        Statement st = con.createStatement();
+        ResultSet rs = st.executeQuery("SELECT * FROM shoe WHERE shoeId = " + shoeId);
+        rs.next();
+        return rs.getInt(1);
+    }
+
+    // TYPE - KEY - VALUE accepts as input.
+    // Types is str and int
+    public static List<Shoe> getShoesByKeyValues(String... strings) throws SQLException {
+        Statement st = con.createStatement();
+        StringBuilder sb = new StringBuilder("SELECT * FROM shoe WHERE ");
+
+        String type = null;
+        for(int i = 0 ; i < strings.length ; i+=3){
+            if (strings[i + 2] == null || strings[i + 2].length() == 0 || strings[i + 2].equals("null"))
+                continue;
+            type = strings[i];
+            if(type.equals("str")){
+                sb.append(" AND ").append(strings[i + 1]).append(" = \"");
+                sb.append(strings[i+2] + "\" ");
+            }else{
+                sb.append(" AND ").append(strings[i + 1]).append(" = ");
+                sb.append(strings[i+2]);
+            }
+        }
+
+        String str = sb.toString();
+        str = str.replaceFirst("AND", "");
+
+        System.out.println("Query is : " + str);
+
+        ResultSet rs = st.executeQuery(str);
+        List<Shoe> listShoe = new ArrayList<>();
+        while (rs.next()) {
+
+            listShoe.add(new Shoe(
+                    rs.getInt(1),
+                    rs.getInt(2),
+                    rs.getInt(3),
+                    rs.getNString(4),
+                    rs.getInt(5)
+            ));
+        }
+
+        return listShoe;
+
+    }
+
+    // TYPE - KEY - VALUE accepts as input.
+    // Types is str and int
+    public static List<Model> getModelsByKeyValues(String... strings) throws SQLException {
+        Statement st = con.createStatement();
+        StringBuilder sb = new StringBuilder("SELECT * FROM model WHERE ");
+
+        String type = null;
+        for(int i = 0 ; i < strings.length ; i+=3){
+            if (strings[i + 2] == null || strings[i + 2].length() == 0 || strings[i + 2].equals("null"))
+                continue;
+            type = strings[i];
+            if(type.equals("str")){
+                sb.append(" AND ").append(strings[i + 1]).append(" = \"");
+                sb.append(strings[i+2] + "\" ");
+            }else if(type.equals("strlike")){
+                sb.append(" AND ").append(strings[i + 1]).append(" LIKE \"%");
+                sb.append(strings[i+2] + "%\" ");
+            }
+            else{
+                sb.append(" AND ").append(strings[i + 1]).append(" = ");
+                sb.append(strings[i+2]);
+            }
+        }
+
+        String str = sb.toString();
+        str = str.replaceFirst("AND", "");
+
+        System.out.println("Query is : " + str);
+
+        //System.out.println("Query is : " + str);
+
+        ResultSet rs = st.executeQuery(str);
+        List<Model> listShoe = new ArrayList<>();
+        while (rs.next()) {
+            ModelType modelType;
+            String t = rs.getNString(4);
+            if (t.equals(ModelType.Sneaker.toString())) {
+                modelType = ModelType.Sneaker;
+            } else if (t.equals(ModelType.Boot.toString())) {
+                modelType = ModelType.Boot;
+            } else {
+                modelType = ModelType.Heel;
+            }
+
+            listShoe.add(new Model(
+                    rs.getInt(1),
+                    rs.getString(2),
+                    rs.getString(3),
+                    modelType,
+                    rs.getDouble(5),
+                    rs.getDouble(6)
+            ));
+        }
+
+        return listShoe;
+
     }
 }

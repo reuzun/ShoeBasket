@@ -103,7 +103,7 @@ public class Shoe {
 
 
 
-    public Shoe(int shoeID, int modelID, int size, String color, int count) {
+    public Shoe(int modelID, int shoeID, int size, String color, int count) {
         this.shoeID = shoeID;
         this.modelID = modelID;
         this.size = size;
