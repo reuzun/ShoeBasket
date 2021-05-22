@@ -4,6 +4,7 @@ import ceng.estu.model.User;
 import ceng.estu.model.UserType;
 
 import java.sql.*;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,12 +53,43 @@ public class DBHandler {
                 return false;
 
         }catch (Exception e){
-            e.printStackTrace();
+            //e.printStackTrace();
+            System.out.println("LOG " + Date.from(Instant.now()) + " : No such that user!");
         }
         throw new Exception("No such that user.");
     }
 
-    public static boolean signUp(){}
+    public static boolean signUp(String username, String password, String email, String name, String surname, String address, String phoneNo) throws Exception {
+        try {
+            Statement st = con.createStatement();
+            st.executeUpdate("Insert into users values(" +
+                    "\"" + username +  "\"," +
+                    "\"" + password +  "\"," +
+                    "\"" + email +  "\"," +
+                    "\"" + name +  "\"," +
+                    "\"" + surname +  "\"," +
+                    " \"User\")");
+
+            Statement stAddress = con.createStatement();
+            stAddress.executeUpdate("Insert into user_adresses values(" +
+                    "\"" + username +  "\"," +
+                    "\"" + address +  "\")"
+                    );
+
+            Statement stPhone = con.createStatement();
+            stPhone.executeUpdate("Insert into user_phoneno values(" +
+                    "\"" + username +  "\"," +
+                    "\"" + phoneNo +  "\")"
+            );
+
+            return true;
+        }catch (Exception e){
+            //e.printStackTrace();
+        }
+        throw new Exception("Username Already Exists!");
+    }
+
+
 
     private static UserType getType(String type){
         return type.equals("User") ? UserType.User : UserType.Admin;

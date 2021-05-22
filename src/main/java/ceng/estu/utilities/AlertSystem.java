@@ -31,6 +31,11 @@ public class AlertSystem {
                 alert.showAndWait();
                 return alert.getResult() == ButtonType.OK;
             }
+            case INFORMATION:{
+                Alert alert = new Alert(Alert.AlertType.INFORMATION,errorText);
+                alert.showAndWait();
+                return true;
+            }
             default:
                 return true;
         }

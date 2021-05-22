@@ -6,5 +6,6 @@ package ceng.estu.utilities;
 public enum ErrorType {
     ERROR,
     WARNING,
-    CONFIRMATION
+    CONFIRMATION,
+    INFORMATION
 }

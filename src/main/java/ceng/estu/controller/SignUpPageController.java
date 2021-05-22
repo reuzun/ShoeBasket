@@ -1,5 +1,6 @@
 package ceng.estu.controller;
 
+import ceng.estu.database.DBHandler;
 import ceng.estu.main.Main;
 import ceng.estu.utilities.AlertSystem;
 import ceng.estu.utilities.ErrorType;
@@ -40,6 +41,24 @@ public class SignUpPageController implements Controllable, Initializable {
             PageSystem.getPage(btn_Complete, "LogInPage");
             Main.getLastLoader().fillAreas(username, "");
             Main.setTitle("Welcome !");
+
+            try {
+                DBHandler.signUp(
+                        input_signUpUsername.getText(),
+                        input_signUpPassword.getText(),
+                        input_SignUpEmail.getText(),
+                        input_SignUpName.getText(),
+                        input_SignUpSurname.getText(),
+                        input_SignUpAdress.getText(),
+                        input_signUpPhoneNumber.getText()
+                );
+            }catch (Exception e){
+                AlertSystem.getAlert(ErrorType.ERROR, "Couldnt sign Up!");
+                return;
+            }
+            AlertSystem.getAlert(ErrorType.INFORMATION, "Done!");
+
+
         }
     }
 
@@ -51,10 +70,10 @@ public class SignUpPageController implements Controllable, Initializable {
 
     private boolean validateInputs(){
         StringBuilder sb = new StringBuilder();
-        if(input_signUpUsername.getText().length() < 4){
+        if(input_signUpUsername.getText().length() < 1){
             sb.append("Your username length must be bigger than 4.\n");
         }
-        if(input_signUpPassword.getText().length() < 5){
+        if(input_signUpPassword.getText().length() < 1){
             sb.append("Your password length must be bigger than 5.\n");
         }
         if(!Validator.isValidEmailAddress(input_SignUpEmail.getText())){
@@ -66,12 +85,12 @@ public class SignUpPageController implements Controllable, Initializable {
         if(input_SignUpSurname.getText().length() < 1){
             sb.append("Your surname length must be bigger than 0.\n");
         }
-        if(input_signUpPhoneNumber.getText().length() < 7){
+        /*if(input_signUpPhoneNumber.getText().length() < 7){
             sb.append("Your phone number length must be bigger than 7.\n");
-        }
-        if(input_SignUpAdress.getText().length() < 15){
+        }*/
+        /*if(input_SignUpAdress.getText().length() < 15){
             sb.append("Your address length must be bigger than 20.\n");
-        }
+        }*/
 
         if(sb.toString().length() == 0)return true;
         else{
