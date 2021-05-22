@@ -1,11 +1,13 @@
 package ceng.estu.controller;
 
+import ceng.estu.database.DBHandler;
 import ceng.estu.model.Model;
 import ceng.estu.model.ModelType;
 import ceng.estu.model.Shoe;
 import ceng.estu.model.User;
 import ceng.estu.utilities.SortType;
 import ceng.estu.utilities.Utilities;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
@@ -24,6 +26,8 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.sql.SQLException;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -42,6 +46,8 @@ public class SearchPageController implements Initializable {
     private TextField lowerBoundTxt;
     @FXML
     private ComboBox sortTypeBox;
+    @FXML
+    private TextField modelNameSearch;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -74,7 +80,7 @@ public class SearchPageController implements Initializable {
         vBox.getChildren().add(hbox);*/
         try {
             randomPrintShoes();
-        } catch (MalformedURLException e) {
+        } catch (MalformedURLException | SQLException e) {
             e.printStackTrace();
         }
     }
@@ -85,10 +91,13 @@ public class SearchPageController implements Initializable {
 
     }
 
-    private void randomPrintShoes() throws MalformedURLException {
+    private void randomPrintShoes() throws MalformedURLException, SQLException {
+
+        List<Model> modelList = DBHandler.randomModels();
+
         HBox hbox = new HBox();
         hbox.setSpacing(15);
-        for(int i = 0 ; i < 25 ; i++) {
+        for(int i = 0 ; i < 50 ; i++) {
             AnchorPane container = new AnchorPane();
             container.setMinWidth(290);
             container.setMinHeight(200);
@@ -105,7 +114,7 @@ public class SearchPageController implements Initializable {
             }
             */
 
-            Model model = new Model(4,"asdasd","asdasd",ModelType.Sneaker,148.57,-1.0);
+            Model model = modelList.get(i);
 
             Label label = new Label();
 
@@ -222,6 +231,11 @@ public class SearchPageController implements Initializable {
             hbox.getChildren().add(container);
         }
         vBox.getChildren().add(hbox);
+    }
+
+    @FXML
+    public void searchShoes(ActionEvent actionEvent) {
+
     }
 
 }

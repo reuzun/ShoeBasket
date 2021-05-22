@@ -1,5 +1,7 @@
 package ceng.estu.database;
 
+import ceng.estu.model.Model;
+import ceng.estu.model.ModelType;
 import ceng.estu.model.User;
 import ceng.estu.model.UserType;
 
@@ -89,7 +91,36 @@ public class DBHandler {
         throw new Exception("Username Already Exists!");
     }
 
+    public static List<Model> randomModels() throws SQLException {
+        List<Model> modelList = new ArrayList<>();
+        Statement st = con.createStatement();
+        ResultSet rs = st.executeQuery("SELECT * FROM `model` order by rand() limit 50");
 
+        while(rs.next()){
+            ModelType modelType;
+            String type = rs.getNString(4);
+            if(type.equals(ModelType.Sneaker.toString())){
+                modelType = ModelType.Sneaker;
+            }else if(type.equals(ModelType.Boot.toString())){
+                modelType = ModelType.Boot;
+            }else{
+                modelType = ModelType.Heel;
+            }
+            modelList.add(
+                    new Model(
+                            rs.getInt(1),
+                            rs.getNString(2),
+                            rs.getNString(3),
+                            modelType,
+                            rs.getDouble(5),
+                            rs.getDouble(6)
+                    )
+            );
+        }
+
+
+        return modelList;
+    }
 
     private static UserType getType(String type){
         return type.equals("User") ? UserType.User : UserType.Admin;
