@@ -3,6 +3,7 @@ package ceng.estu.database;
 import ceng.estu.model.*;
 import ceng.estu.utilities.AlertSystem;
 import ceng.estu.utilities.ErrorType;
+import ceng.estu.utilities.SortType;
 import javafx.scene.control.TextField;
 
 import javax.swing.plaf.nimbus.State;
@@ -430,4 +431,79 @@ public class DBHandler {
         return st.execute("UPDATE shoe SET count = " + count + " WHERE shoeid = " + shoeId);
     }
 
+    public static List<Model> searchModelsAccordingToParams(String name, double lowerBound, double upperBound, SortType sortType) throws SQLException {
+        boolean flag = false;
+        List<Model> modelList = new ArrayList<>();
+        StringBuilder sb = new StringBuilder("SELECT * FROM model WHERE ");
+        if(name.length() > 0){
+            sb.append(" AND (brandname LIKE \"%" + name + "%\" OR modelname LIKE \"%" + name + "%\") ");
+            flag = true;
+        }
+        /*if( size != 0 ){
+            sb.append(" AND size = " + size + " ");
+            flag = true;
+        }*/
+        if( lowerBound != 0 ){
+            sb.append(" AND price > " + lowerBound + " ");
+            flag = true;
+        }
+        if( upperBound != 0 ){
+            sb.append(" AND price < " + upperBound + " ");
+            flag = true;
+        }
+        if( sortType != null ){
+            if (flag == false)
+            {
+                String s = sb.toString().replaceFirst("WHERE" , "");
+                sb = new StringBuilder(s);
+            }
+            switch (sortType){
+                case starAscending:
+                    sb.append( "ORDER BY customerrating ASC" );
+                    break;
+                case priceAscending:
+                    sb.append( "ORDER BY price ASC" );
+                    break;
+                case priceDescending:
+                    sb.append( "ORDER BY price DESC" );
+                    break;
+                case starDescending:
+                    sb.append( "ORDER BY customerrating DESC" );
+                    break;
+            }
+        }
+
+        sb.append(" LIMIT 50");
+
+        String query = sb.toString().replaceFirst("AND" , "");
+
+        System.out.println("Query is : " + query);
+
+        Statement st = con.createStatement();
+        ResultSet rs = st.executeQuery(query);
+
+        while (rs.next()){
+
+            ModelType modelType;
+            String t = rs.getNString(4);
+            if (t.equals(ModelType.Sneaker.toString())) {
+                modelType = ModelType.Sneaker;
+            } else if (t.equals(ModelType.Boot.toString())) {
+                modelType = ModelType.Boot;
+            } else {
+                modelType = ModelType.Heel;
+            }
+
+            modelList.add(new Model(
+                    rs.getInt(1),
+                    rs.getString(2),
+                    rs.getString(3),
+                    modelType,
+                    rs.getDouble(5),
+                    rs.getDouble(6)
+            ));
+        }
+
+        return modelList;
+    }
 }

@@ -12,19 +12,17 @@
    <children>
       <TextField fx:id="modelNameSearch" layoutX="38.0" layoutY="40.0" />
       <Text layoutX="78.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Model Name" />
-      <Text layoutX="278.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Size" />
-      <ComboBox fx:id="sizeComboBox" layoutX="213.0" layoutY="40.0" prefWidth="150.0" promptText="Size" />
-      <Button layoutX="811.0" layoutY="16.0" mnemonicParsing="false" onAction="#searchShoes" prefHeight="49.0" prefWidth="80.0" text="Search" />
+      <Button layoutX="715.0" layoutY="16.0" mnemonicParsing="false" onAction="#searchShoes" prefHeight="49.0" prefWidth="80.0" text="Search" />
       <ScrollPane layoutX="24.0" layoutY="98.0" prefHeight="506.0" prefWidth="1240.0">
          <content>
             <VBox fx:id="vBox" focusTraversable="true" prefHeight="515.0" prefWidth="1239.0" spacing="50.0" style="-fx-background-color: #E4E4E4; -fx-border-insets: 8px; -fx-padding: 8, 0, 0, 10;" stylesheets="@../style.css" />
          </content>
       </ScrollPane>
-      <Text layoutX="385.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lower Bound Price" />
-      <Text layoutX="505.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Upper Bound Price" />
-      <TextField fx:id="lowerBoundTxt" layoutX="385.0" layoutY="40.0" prefHeight="25.0" prefWidth="99.0" />
-      <TextField fx:id="upperBoundTxt" layoutX="505.0" layoutY="40.0" prefHeight="25.0" prefWidth="99.0" />
-      <ComboBox fx:id="sortTypeBox" layoutX="632.0" layoutY="40.0" prefWidth="150.0" />
-      <Text layoutX="657.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sort According to :" />
+      <Text layoutX="235.0" layoutY="26.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lower Bound Price" />
+      <Text layoutX="382.0" layoutY="26.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Upper Bound Price" />
+      <TextField fx:id="lowerBoundTxt" layoutX="235.0" layoutY="40.0" prefHeight="25.0" prefWidth="99.0" />
+      <TextField fx:id="upperBoundTxt" layoutX="382.0" layoutY="40.0" prefHeight="25.0" prefWidth="99.0" />
+      <ComboBox fx:id="sortTypeBox" layoutX="522.0" layoutY="40.0" prefWidth="150.0" />
+      <Text layoutX="547.0" layoutY="26.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sort According to :" />
    </children>
 </AnchorPane>

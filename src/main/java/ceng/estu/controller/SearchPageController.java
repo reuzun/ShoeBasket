@@ -36,8 +36,8 @@ import java.util.concurrent.atomic.AtomicReference;
  */
 public class SearchPageController implements Initializable {
 
-    @FXML
-    private ComboBox sizeComboBox;
+    /*@FXML
+    private ComboBox<Integer> sizeComboBox;*/
     @FXML
     private VBox vBox;
     @FXML
@@ -45,15 +45,15 @@ public class SearchPageController implements Initializable {
     @FXML
     private TextField lowerBoundTxt;
     @FXML
-    private ComboBox sortTypeBox;
+    private ComboBox<SortType> sortTypeBox;
     @FXML
     private TextField modelNameSearch;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        for(int i = 31 ; i < 45 ; i++){
+        /*for(int i = 31 ; i < 45 ; i++){
             sizeComboBox.getItems().add(i);
-        }
+        }*/
         for(SortType s : SortType.values())
             sortTypeBox.getItems().add(s);
 
@@ -85,19 +85,43 @@ public class SearchPageController implements Initializable {
         }
     }
 
-
-
-    private void printShoes(String modelName, int size, int priceLowerBound, int priceUpperBound){
-
+    private void randomPrintShoes() throws MalformedURLException, SQLException {
+        List<Model> modelList = DBHandler.randomModels();
+        printShoes(modelList);
     }
 
-    private void randomPrintShoes() throws MalformedURLException, SQLException {
+    @FXML
+    public void searchShoes(ActionEvent actionEvent) throws SQLException, MalformedURLException {
+        String modelName = modelNameSearch.getText();
+        int size;
+        /*try{
+            size = sizeComboBox.getSelectionModel().getSelectedItem();
+        }catch (Exception e){
+            size = 0;
+        }*/
+        double lowerBound = lowerBoundTxt.getText().length() > 0 ? Double.parseDouble( lowerBoundTxt.getText() ) : 0;
+        double upperBound = upperBoundTxt.getText().length() > 0 ? Double.parseDouble( upperBoundTxt.getText() ) : 0;
+        SortType type = sortTypeBox.getSelectionModel().getSelectedItem();
 
-        List<Model> modelList = DBHandler.randomModels();
+        List<Model> modelList = DBHandler.searchModelsAccordingToParams(
+                modelName,
+                lowerBound,
+                upperBound,
+                type
+        );
+
+        printShoes(modelList);
+    }
+
+
+
+    private void printShoes(List<Model> modelList) throws MalformedURLException {
+
+        vBox.getChildren().clear();
 
         HBox hbox = new HBox();
         hbox.setSpacing(15);
-        for(int i = 0 ; i < 50 ; i++) {
+        for (Model value : modelList) {
             AnchorPane container = new AnchorPane();
             container.setMinWidth(290);
             container.setMinHeight(200);
@@ -114,12 +138,12 @@ public class SearchPageController implements Initializable {
             }
             */
 
-            Model model = modelList.get(i);
+            Model model = value;
 
             Label label = new Label();
 
             //adjusting path for intelliJ and jar file
-            String path = Utilities.getImagePath( model.getType() );
+            String path = Utilities.getImagePath(model.getType());
             //System.out.println("type : " + ModelType.Boot.toString().toLowerCase());
 
             File img = new File(path);
@@ -127,7 +151,7 @@ public class SearchPageController implements Initializable {
             ImageView iv = new ImageView(new Image(String.valueOf(img.toURI().toURL())));
             iv.setFitHeight(150);
             iv.setFitWidth(150);
-            iv.setClip(new Ellipse(70,70,70,70));
+            iv.setClip(new Ellipse(70, 70, 70, 70));
             label.setGraphic(iv);
             label.setText(model.toString());
 
@@ -139,8 +163,7 @@ public class SearchPageController implements Initializable {
             btn.setLayoutY(155);
 
 
-
-            btn.setOnAction( e -> {
+            btn.setOnAction(e -> {
                 BorderPane bPane = new BorderPane();
                 AnchorPane aPane = new AnchorPane();
                 VBox vbox2 = new VBox();
@@ -153,48 +176,47 @@ public class SearchPageController implements Initializable {
 
                 Stage buyStage = new Stage();
                 ComboBox<Integer> sizeBox = new ComboBox();
-                for(int j = 30 ; j < 45 ; j ++){
+                for (int j = 30; j < 45; j++) {
                     sizeBox.getItems().add(j);
                 }
 
                 AtomicReference<Shoe> willAddedShoe = new AtomicReference<>();
 
                 ComboBox<String> colorBox = new ComboBox();
-                sizeBox.setOnAction( (ev)->{
+                sizeBox.setOnAction((ev) -> {
                     //Get colors from db
-                    for(int j = 30 ; j < 45 ; j ++){
-                        colorBox.getItems().add(String.valueOf((char)j));
+                    for (int j = 30; j < 45; j++) {
+                        colorBox.getItems().add(String.valueOf((char) j));
                     }
-                    if(!hBox2.getChildren().contains(colorBox))
+                    if (!hBox2.getChildren().contains(colorBox))
                         hBox2.getChildren().addAll(colorBox);
-                    else{
+                    else {
                         colorBox.getItems().clear();
                         colorBox.getItems().add("new Colors ADDED!");
                     }
-                } );
+                });
 
-                colorBox.setOnAction( (evvv)->{
+                colorBox.setOnAction((evvv) -> {
                     int size = sizeBox.getSelectionModel().getSelectedItem();
                     String color = colorBox.getSelectionModel().getSelectedItem();
-                    System.out.println("Size : " + size + " Color : " + color + "Model is : " + model.toString() +" Shoe is ...");
+                    System.out.println("Size : " + size + " Color : " + color + "Model is : " + model.toString() + " Shoe is ...");
                     willAddedShoe.set(new Shoe(4, 4, 44, "Black", 44));
-                }  );
-
+                });
 
 
                 hBox2.getChildren().addAll(sizeBox);
 
                 Button addBasketBtn = new Button("Add To Basket");
 
-                addBasketBtn.setOnAction( (evv)->{
+                addBasketBtn.setOnAction((evv) -> {
                     User.user.getBasket().add(willAddedShoe.get());
                     System.out.println(User.user.getBasket().toString());
-                } );
+                });
 
                 vbox2.getChildren().addAll(new Text(model.toString()), hBox2, addBasketBtn);
 
 
-                String path2 = Utilities.getImagePath( model.getType() );
+                String path2 = Utilities.getImagePath(model.getType());
 
                 File img2 = new File(path2);
                 ImageView iv2 = null;
@@ -222,7 +244,7 @@ public class SearchPageController implements Initializable {
 
             container.getChildren().addAll(label, btn);
 
-            if(hbox.getChildren().size() == 4){
+            if (hbox.getChildren().size() == 4) {
                 vBox.getChildren().add(hbox);
                 hbox = new HBox();
                 hbox.setSpacing(15);
@@ -231,11 +253,6 @@ public class SearchPageController implements Initializable {
             hbox.getChildren().add(container);
         }
         vBox.getChildren().add(hbox);
-    }
-
-    @FXML
-    public void searchShoes(ActionEvent actionEvent) {
-
     }
 
 }
