@@ -187,6 +187,7 @@ public class AdminManagePageController implements Initializable {
         searchPane.getChildren().add(sp);
 
         searchStage.show();
+        searchStage.toFront();
     }
     @FXML
     public void searchShoe(ActionEvent actionEvent) throws SQLException {
@@ -243,6 +244,7 @@ public class AdminManagePageController implements Initializable {
         searchPane.getChildren().add(sp);
 
         searchStage.show();
+        searchStage.toFront();
     }
 
     @javafx.fxml.FXML

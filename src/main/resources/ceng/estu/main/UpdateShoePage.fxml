@@ -28,12 +28,12 @@
             </Label>
             <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="25.0" prefWidth="275.0" text="Size">
                <graphic>
-                  <TextField fx:id="size" prefHeight="25.0" prefWidth="151.0" />
+                  <TextField fx:id="size" editable="false" prefHeight="25.0" prefWidth="151.0" />
                </graphic>
             </Label>
             <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="25.0" prefWidth="275.0" text="Color">
                <graphic>
-                  <TextField fx:id="color" prefHeight="25.0" prefWidth="151.0" />
+                  <TextField fx:id="color" editable="false" prefHeight="25.0" prefWidth="151.0" />
                </graphic>
             </Label>
             <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="25.0" prefWidth="275.0" text="Count">

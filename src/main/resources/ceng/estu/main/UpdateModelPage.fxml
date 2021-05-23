@@ -23,17 +23,17 @@
             </Label>
             <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="25.0" prefWidth="275.0" text="Model Name">
                <graphic>
-                  <TextField fx:id="modelName" prefHeight="25.0" prefWidth="151.0" />
+                  <TextField fx:id="modelName" editable="false" prefHeight="25.0" prefWidth="151.0" />
                </graphic>
             </Label>
             <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="25.0" prefWidth="275.0" text="Brand Name">
                <graphic>
-                  <TextField fx:id="brandName" prefHeight="25.0" prefWidth="151.0" />
+                  <TextField fx:id="brandName" editable="false" prefHeight="25.0" prefWidth="151.0" />
                </graphic>
             </Label>
             <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="25.0" prefWidth="275.0" text="Type">
                <graphic>
-                  <TextField fx:id="type" prefHeight="25.0" prefWidth="151.0" />
+                  <TextField fx:id="type" editable="false" prefHeight="25.0" prefWidth="151.0" />
                </graphic>
             </Label>
             <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="25.0" prefWidth="275.0" text="Price">

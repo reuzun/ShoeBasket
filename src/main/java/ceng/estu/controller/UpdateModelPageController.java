@@ -1,5 +1,8 @@
 package ceng.estu.controller;
 
+import ceng.estu.database.DBHandler;
+import ceng.estu.utilities.AlertSystem;
+import ceng.estu.utilities.ErrorType;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -7,6 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 /**
@@ -29,8 +33,14 @@ public class UpdateModelPageController implements Controllable{
     public ImageView imageView;
 
     @FXML
-    public void updateModel(ActionEvent actionEvent) {
+    public void updateModel(ActionEvent actionEvent) throws SQLException {
         //update database!
+        try {
+            DBHandler.updateModelByModelId(price.getText(), modelID.getText());
+            AlertSystem.getAlert(ErrorType.INFORMATION, "Done!");
+        }catch (Exception e){
+            AlertSystem.getAlert(ErrorType.ERROR, "An error is ocurred!");
+        }
     }
 
 }

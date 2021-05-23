@@ -420,4 +420,14 @@ public class DBHandler {
         return st.execute("DELETE FROM model WHERE modelId = " + modelId);
     }
 
+    public static boolean updateModelByModelId(String price, String modelId) throws SQLException {
+        Statement st = con.createStatement();
+        return st.execute("UPDATE model SET price = " + price + " WHERE modelid = " + modelId);
+    }
+
+    public static boolean updateShoeByShoeId(String count, String shoeId) throws SQLException {
+        Statement st = con.createStatement();
+        return st.execute("UPDATE shoe SET count = " + count + " WHERE shoeid = " + shoeId);
+    }
+
 }
