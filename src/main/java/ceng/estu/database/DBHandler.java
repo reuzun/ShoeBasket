@@ -3,10 +3,9 @@ package ceng.estu.database;
 import ceng.estu.model.*;
 import ceng.estu.utilities.AlertSystem;
 import ceng.estu.utilities.ErrorType;
+import ceng.estu.utilities.MyDate;
 import ceng.estu.utilities.SortType;
-import javafx.scene.control.TextField;
 
-import javax.swing.plaf.nimbus.State;
 import java.sql.*;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -17,10 +16,12 @@ import java.util.List;
  */
 public class DBHandler {
     private static Connection con;
+    //static MyDate date;
 
     static {
         DBConnection.initDB();
         con = DBConnection.getCon();
+        MyDate.initDate();
     }
 
     public static boolean logIn(String id, String pass) throws Exception {
@@ -46,7 +47,7 @@ public class DBHandler {
             List<String> phoneList = new ArrayList<>();
             Statement stphone = con.createStatement();
             ResultSet answerphone = stphone.executeQuery("SELECT * FROM `user_phoneno` WHERE Username=\"" + id + "\"");
-            while (answeradress.next())
+            while (answerphone.next())
                 phoneList.add(answerphone.getNString(2));
 
             User.setUser(username, password, type, email, name, surname, adressList, phoneList);
@@ -563,5 +564,57 @@ public class DBHandler {
             System.out.println("Error ocurred!");
         }
         return false;
+    }
+
+
+    //-------------------------------------------------------------------------------------//
+    public static boolean addAdress(String text, int adressIndex) throws SQLException {
+        Statement st = con.createStatement();
+        String query = "INSERT INTO user_adresses values (\"" + User.user.getUsername() + "\", \"" + text + "\")";
+        User.user.getAddresses().add(text);
+        System.out.println( MyDate.refresh() + " : " + query.replace("\n",""));
+        return st.execute(query);
+    }
+
+    public static boolean addPhoneNo(String text, int phoneIndex) throws SQLException {
+        Statement st = con.createStatement();
+        String query = "INSERT INTO user_phoneno values (\"" + User.user.getUsername() + "\", \"" + text + "\")";
+        User.user.getPhoneNos().add(text);
+        System.out.println( MyDate.refresh() + " : " + query.replace("\n",""));
+        return st.execute(query);
+    }
+
+    public static boolean updatePhoneNo(String text, int phoneIndex) throws SQLException {
+        Statement st = con.createStatement();
+        String query = "UPDATE user_phoneno SET phoneno = " + text + " WHERE username = \"" + User.user.getUsername() + "\"" +
+                " AND phoneno = \"" + User.user.getPhoneNos().get(phoneIndex) + "\"" ;
+        User.user.getPhoneNos().set(phoneIndex, text);
+        System.out.println( MyDate.refresh() + " : " + query.replace("\n",""));
+        return st.execute(query);
+    }
+
+    public static boolean updateAdress(String text, int adressIndex) throws SQLException {
+        Statement st = con.createStatement();
+        String query = "UPDATE user_adresses SET adress = \"" + text + "\" WHERE username = \"" + User.user.getUsername() + "\"" +
+                " AND adress = \"" + User.user.getAddresses().get(adressIndex) + "\"";
+        User.user.getAddresses().set(adressIndex, text);
+        System.out.println( MyDate.refresh() + " : " + query.replace("\n",""));
+        return st.execute(query);
+    }
+
+    public static boolean deletePhone(String text, int phoneIndex) throws SQLException {
+        Statement st = con.createStatement();
+        String query = "DELETE FROM user_phoneno WHERE phoneno = " + text;
+        User.user.getPhoneNos().remove(phoneIndex);
+        System.out.println( MyDate.refresh() + " : " + query.replace("\n",""));
+        return st.execute(query);
+    }
+
+    public static boolean deleteAdress(String text, int adressIndex) throws SQLException {
+        Statement st = con.createStatement();
+        String query = "DELETE FROM user_adresses WHERE adress = \"" + text + "\"";
+        User.user.getAddresses().remove(adressIndex);
+        System.out.println( MyDate.refresh() + " : " + query.replace("\n",""));
+        return st.execute(query);
     }
 }

@@ -45,4 +45,14 @@ public class UserPageController implements Initializable {
         searchPage = new Scene(Main.loadFXML("LastBoughts"));
         GUIPane.setCenter(searchPage.getRoot());
     }
+
+    @FXML
+    public void setBasketPane(ActionEvent actionEvent) {
+    }
+
+    @FXML
+    public void setUpdatePage(ActionEvent actionEvent) throws IOException {
+        searchPage = new Scene(Main.loadFXML("UpdateUserDataPage"));
+        GUIPane.setCenter(searchPage.getRoot());
+    }
 }
