@@ -208,7 +208,7 @@ public class SearchPageController implements Initializable {
                 colorBox.setOnAction((evvv) -> {
                     int size = sizeBox.getSelectionModel().getSelectedItem();
                     String color = colorBox.getSelectionModel().getSelectedItem();
-                    System.out.println("Size : " + size + " Color : " + color + "Model is : " + model.toString() + " Shoe is ...");
+                    //System.out.println("Size : " + size + " Color : " + color + "Model is : " + model.toString() + " Shoe is ...");
                     willAddedShoe.set(new Shoe(value.getModelID(),
                             DBHandler.getShoeIdByModelIdColorSize(value.getModelID(), sizeBox.getSelectionModel().getSelectedItem(), colorBox.getSelectionModel().getSelectedItem()),
                             sizeBox.getSelectionModel().getSelectedItem(),
@@ -252,7 +252,7 @@ public class SearchPageController implements Initializable {
                 buyStage.setResizable(false);
                 buyStage.setMinWidth(600);
                 buyStage.show();
-                System.out.println(model + " is sold!");
+                //System.out.println(model + " is sold!");
             });
 
             label.setStyle("-fx-padding: 25px 0px 0px 25px;");

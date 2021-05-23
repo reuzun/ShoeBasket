@@ -158,7 +158,7 @@ public class LastBoughtsController implements Initializable {
             }
 
 
-            bPane.setTop(new Text("MODELİN ADI"));
+            bPane.setTop(new Text("Name of model"));
             bPane.setLeft(iv2);
             bPane.setCenter(vbox2);
 
@@ -167,7 +167,7 @@ public class LastBoughtsController implements Initializable {
             buyStage.setResizable(false);
             buyStage.setMinWidth(600);
             buyStage.show();
-            System.out.println(model + " is sold!");
+            //System.out.println(model + " is sold!");
         });
 
 

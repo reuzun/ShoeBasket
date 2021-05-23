@@ -27,7 +27,12 @@ public class DBHandler {
     public static boolean logIn(String id, String pass) throws Exception {
         try {
             Statement st = con.createStatement();
-            ResultSet answer = st.executeQuery("SELECT * FROM `users` WHERE Username=\"" + id + "\" and Pass_word = \"" + pass + "\"");
+
+            String query = "SELECT * FROM `users` WHERE Username=\"" + id + "\" and Pass_word = \"" + pass + "\"";
+
+            ResultSet answer = st.executeQuery(query);
+
+            System.out.println( MyDate.refresh() + " : " + query.replace("\n",""));
 
             answer.next();
 
@@ -40,13 +45,24 @@ public class DBHandler {
 
             List<String> adressList = new ArrayList<>();
             Statement stadress = con.createStatement();
-            ResultSet answeradress = stadress.executeQuery("SELECT * FROM `user_adresses` WHERE Username=\"" + id + "\"");
+
+
+            query = "SELECT * FROM `user_adresses` WHERE Username=\"" + id + "\"";
+            System.out.println( MyDate.refresh() + " : " + query.replace("\n",""));
+
+            ResultSet answeradress = stadress.executeQuery(query);
+
             while (answeradress.next())
                 adressList.add(answeradress.getNString(2));
 
             List<String> phoneList = new ArrayList<>();
             Statement stphone = con.createStatement();
-            ResultSet answerphone = stphone.executeQuery("SELECT * FROM `user_phoneno` WHERE Username=\"" + id + "\"");
+            query = "SELECT * FROM `user_phoneno` WHERE Username=\"" + id + "\"";
+
+            System.out.println( MyDate.refresh() + " : " + query.replace("\n",""));
+
+            ResultSet answerphone = stphone.executeQuery(query);
+
             while (answerphone.next())
                 phoneList.add(answerphone.getNString(2));
 
@@ -164,7 +180,9 @@ public class DBHandler {
     public static Model getModelByModelId(int modelID) {
         try {
             Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery("SELECT * FROM `model` where modelId = " + modelID);
+            String query = "SELECT * FROM `model` where modelId = " + modelID;
+            System.out.println( MyDate.refresh() + " : " + query.replace("\n",""));
+            ResultSet rs = st.executeQuery(query);
             rs.next();
             ModelType modelType;
             String type = rs.getNString(4);
@@ -193,7 +211,9 @@ public class DBHandler {
         List<Shoe> shoeList = new ArrayList<>();
 
         Statement st = con.createStatement();
-        ResultSet rs = st.executeQuery("SELECT * FROM shoe_sold INNER JOIN shoe ON shoe_sold.shoeId = shoe.ShoeID where Username = \"" + User.user.getUsername() + "\" " + "order by rand() limit 50");
+        String query = "SELECT * FROM shoe_sold INNER JOIN shoe ON shoe_sold.shoeId = shoe.ShoeID where Username = \"" + User.user.getUsername() + "\" " + "order by rand() limit 50";
+        System.out.println( MyDate.refresh() + " : " + query.replace("\n",""));
+        ResultSet rs = st.executeQuery(query);
 
 
 
@@ -207,7 +227,9 @@ public class DBHandler {
             );
 
             Statement st2 = con.createStatement();
-            ResultSet rs2 = st2.executeQuery("SELECT * FROM model where ModelId = " + shoe.getModelID() );
+            query = "SELECT * FROM model where ModelId = " + shoe.getModelID();
+            System.out.println( MyDate.refresh() + " : " + query.replace("\n",""));
+            ResultSet rs2 = st2.executeQuery( query );
             rs2.next();
 
             shoe.setModelProperties(
@@ -227,29 +249,38 @@ public class DBHandler {
         try {
 
             Statement s = con.createStatement();
-            ResultSet r = s.executeQuery("select count(Username) from rated_models where username = \"" + User.user.getUsername() + "\" AND modelId = " + modelId);
+            String query = "select count(Username) from rated_models where username = \"" + User.user.getUsername() + "\" AND modelId = " + modelId;
+            System.out.println( MyDate.refresh() + " : " + query.replace("\n",""));
+            ResultSet r = s.executeQuery(query);
             r.next();
             int i = r.getInt(1);
 
             if(i != 0){
-                System.out.println("i is : " + i);
+                //System.out.println("i is : " + i);
                 AlertSystem.getAlert(ErrorType.INFORMATION, "You have already starred this model!");
                 return false;
             }
 
 
             Statement st = con.createStatement();
-            st.executeUpdate("INSERT INTO rated_models values (\"" + User.user.getUsername() + "\", " + modelId + ", " + starCount + ")");
+            query = "INSERT INTO rated_models values (\"" + User.user.getUsername() + "\", " + modelId + ", " + starCount + ")";
+            System.out.println( MyDate.refresh() + " : " + query.replace("\n",""));
+            st.executeUpdate(query);
 
             Thread.sleep(200);
 
             Statement s2 = con.createStatement();
-            ResultSet r2 = s2.executeQuery("select count(Username) from rated_models where "+ " modelId = " + modelId);
+            query = "select count(Username) from rated_models where "+ " modelId = " + modelId;
+            System.out.println( MyDate.refresh() + " : " + query.replace("\n",""));
+            ResultSet r2 = s2.executeQuery(query);
             r2.next();
             int rateCount = r2.getInt(1);
 
             Statement s3 = con.createStatement();
-            ResultSet r3 = s3.executeQuery("select Star from rated_models where "+ " modelId = " + modelId);
+            query = "select Star from rated_models where "+ " modelId = " + modelId;
+            System.out.println( MyDate.refresh() + " : " + query.replace("\n",""));
+
+            ResultSet r3 = s3.executeQuery(query);
             int sum = 0;
             while (r3.next())
                 sum += r3.getInt(1);
@@ -260,7 +291,9 @@ public class DBHandler {
             else res = (double)sum / (rateCount) ;
 
             Statement s4 = con.createStatement();
-            s4.executeUpdate("UPDATE model SET CustomerRating = " + res + " where modelId = " + modelId);
+            query = "UPDATE model SET CustomerRating = " + res + " where modelId = " + modelId;
+            System.out.println( MyDate.refresh() + " : " + query.replace("\n",""));
+            s4.executeUpdate(query);
 
 
             AlertSystem.getAlert(ErrorType.INFORMATION, "Done!");
@@ -274,7 +307,9 @@ public class DBHandler {
 
     public static Shoe getShoeByShoeId(String shoeId) throws SQLException {
         Statement st = con.createStatement();
-        ResultSet rs = st.executeQuery("SELECT * FROM shoe WHERE shoeId = " + shoeId);
+        String query = "SELECT * FROM shoe WHERE shoeId = " + shoeId;
+        System.out.println( MyDate.refresh() + " : " + query.replace("\n",""));
+        ResultSet rs = st.executeQuery(query);
         rs.next();
 
         return new Shoe(
@@ -289,7 +324,11 @@ public class DBHandler {
 
     public static int getModelIdByShoeId(int shoeId) throws SQLException {
         Statement st = con.createStatement();
-        ResultSet rs = st.executeQuery("SELECT * FROM shoe WHERE shoeId = " + shoeId);
+        String query ="SELECT * FROM shoe WHERE shoeId = " + shoeId;
+
+        System.out.println( MyDate.refresh() + " : " + query.replace("\n",""));
+
+        ResultSet rs = st.executeQuery(query);
         rs.next();
         return rs.getInt(1);
     }
@@ -317,7 +356,7 @@ public class DBHandler {
         String str = sb.toString();
         str = str.replaceFirst("AND", "");
 
-        System.out.println("Query is : " + str);
+        System.out.println( MyDate.refresh() + " : " + str.replace("\n",""));
 
         ResultSet rs = st.executeQuery(str);
         List<Shoe> listShoe = new ArrayList<>();
@@ -363,7 +402,7 @@ public class DBHandler {
         String str = sb.toString();
         str = str.replaceFirst("AND", "");
 
-        System.out.println("Query is : " + str);
+        System.out.println( MyDate.refresh() + " : " + str.replace("\n",""));
 
         //System.out.println("Query is : " + str);
 
@@ -394,6 +433,7 @@ public class DBHandler {
 
     }
 
+    //---- Does not log
     public static boolean insertModel(String modelName, String brandName, String type, double price) throws SQLException {
         PreparedStatement ps = con.prepareStatement("INSERT INTO MODEL VALUES (DEFAULT ,?,?,?,?,NULL)");
         ps.setString(1, modelName);
@@ -403,6 +443,7 @@ public class DBHandler {
         return ps.execute();
     }
 
+    //---- Does not log
     public static boolean insertShoe(int modelId, int size, String color, int count) throws SQLException {
         PreparedStatement ps = con.prepareStatement("INSERT INTO SHOE VALUES (? ,DEFAULT ,?,?,?)");
         ps.setInt(1, modelId);
@@ -412,24 +453,33 @@ public class DBHandler {
         return ps.execute();
     }
 
+
     public static boolean deleteShoeByShoeId(String shoeId) throws SQLException {
         Statement st = con.createStatement();
-        return st.execute("DELETE FROM shoe WHERE shoeId = " + shoeId);
+        String query = "DELETE FROM shoe WHERE shoeId = " + shoeId;
+        System.out.println( MyDate.refresh() + " : " + query.replace("\n",""));
+        return st.execute(query);
     }
 
     public static boolean deleteModelByModelId(int modelId) throws SQLException {
         Statement st = con.createStatement();
-        return st.execute("DELETE FROM model WHERE modelId = " + modelId);
+        String query = "DELETE FROM model WHERE modelId = " + modelId;
+        System.out.println( MyDate.refresh() + " : " + query.replace("\n",""));
+        return st.execute( query );
     }
 
     public static boolean updateModelByModelId(String price, String modelId) throws SQLException {
         Statement st = con.createStatement();
-        return st.execute("UPDATE model SET price = " + price + " WHERE modelid = " + modelId);
+        String query = "UPDATE model SET price = " + price + " WHERE modelid = " + modelId;
+        System.out.println( MyDate.refresh() + " : " + query.replace("\n",""));
+        return st.execute(query);
     }
 
     public static boolean updateShoeByShoeId(String count, String shoeId) throws SQLException {
         Statement st = con.createStatement();
-        return st.execute("UPDATE shoe SET count = " + count + " WHERE shoeid = " + shoeId);
+        String query = "UPDATE shoe SET count = " + count + " WHERE shoeid = " + shoeId;
+        System.out.println( MyDate.refresh() + " : " + query.replace("\n",""));
+        return st.execute(query);
     }
 
     public static List<Model> searchModelsAccordingToParams(String name, double lowerBound, double upperBound, SortType sortType) throws SQLException {
@@ -478,7 +528,7 @@ public class DBHandler {
 
         String query = sb.toString().replaceFirst("AND" , "");
 
-        System.out.println("Query is : " + query);
+        System.out.println( MyDate.refresh() + " : " + query.replace("\n",""));
 
         Statement st = con.createStatement();
         ResultSet rs = st.executeQuery(query);
@@ -513,7 +563,9 @@ public class DBHandler {
             List<Integer> sizeList = new ArrayList<>();
 
             Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery("SELECT size FROM model INNER JOIN shoe ON model.ModelID = shoe.ModelID WHERE model.ModelID = " + modelId);
+            String query = "SELECT size FROM model INNER JOIN shoe ON model.ModelID = shoe.ModelID WHERE model.ModelID = " + modelId;
+            System.out.println( MyDate.refresh() + " : " + query.replace("\n",""));
+            ResultSet rs = st.executeQuery(query);
 
             while (rs.next()) {
                 sizeList.add(rs.getInt(1));
@@ -531,7 +583,9 @@ public class DBHandler {
             List<String> sizeList = new ArrayList<>();
 
             Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery("SELECT color FROM model INNER JOIN shoe ON model.ModelID = shoe.ModelID WHERE model.ModelID = " + modelId + " AND shoe.size = " + selectedItem);
+            String query = "SELECT color FROM model INNER JOIN shoe ON model.ModelID = shoe.ModelID WHERE model.ModelID = " + modelId + " AND shoe.size = " + selectedItem;
+            System.out.println( MyDate.refresh() + " : " + query.replace("\n",""));
+            ResultSet rs = st.executeQuery(query);
 
             while (rs.next()) {
                 sizeList.add(rs.getNString(1));
@@ -547,13 +601,16 @@ public class DBHandler {
     public static int getShoeIdByModelIdColorSize(int modelId, int size, String color) {
         try {
             Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery("SELECT shoeid FROM shoe WHERE modelid = " + modelId + " AND size = " + size + " AND color = \"" + color + "\"" );
+            String query = "SELECT shoeid FROM shoe WHERE modelid = " + modelId + " AND size = " + size + " AND color = \"" + color + "\"";
+            System.out.println( MyDate.refresh() + " : " + query.replace("\n",""));
+            ResultSet rs = st.executeQuery( query );
             rs.next();
             return rs.getInt(1);
         }catch (Exception e){}
         return -1;
     }
 
+    //Does not log
     public static boolean addToUserBasketByShoeId(int shoeID) {
         try {
             PreparedStatement ps = con.prepareStatement("INSERT INTO basket_contains VALUES (?, ?) ");
