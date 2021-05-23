@@ -2,9 +2,10 @@ package ceng.estu.controller;
 
 import ceng.estu.database.DBHandler;
 import ceng.estu.model.Model;
-import ceng.estu.model.ModelType;
 import ceng.estu.model.Shoe;
 import ceng.estu.model.User;
+import ceng.estu.utilities.AlertSystem;
+import ceng.estu.utilities.ErrorType;
 import ceng.estu.utilities.SortType;
 import ceng.estu.utilities.Utilities;
 import javafx.event.ActionEvent;
@@ -175,24 +176,32 @@ public class SearchPageController implements Initializable {
                 vbox2.setAlignment(Pos.CENTER);
 
                 Stage buyStage = new Stage();
+
+                // value is the related model
+                List<Integer> sizeList = DBHandler.getSizeByModelId(value.getModelID());
+
                 ComboBox<Integer> sizeBox = new ComboBox();
-                for (int j = 30; j < 45; j++) {
-                    sizeBox.getItems().add(j);
-                }
+                sizeBox.getItems().addAll(sizeList);
 
                 AtomicReference<Shoe> willAddedShoe = new AtomicReference<>();
 
                 ComboBox<String> colorBox = new ComboBox();
                 sizeBox.setOnAction((ev) -> {
                     //Get colors from db
-                    for (int j = 30; j < 45; j++) {
+
+                    List<String> colorList = DBHandler.getColorByModelId(value.getModelID(), sizeBox.getSelectionModel().getSelectedItem());
+
+                    /*for (int j = 30; j < 45; j++) {
                         colorBox.getItems().add(String.valueOf((char) j));
-                    }
+                    }*/
+                    colorBox.getItems().clear();
+                    colorBox.getItems().addAll(colorList);
+
                     if (!hBox2.getChildren().contains(colorBox))
-                        hBox2.getChildren().addAll(colorBox);
+                        hBox2.getChildren().add(colorBox);
                     else {
-                        colorBox.getItems().clear();
-                        colorBox.getItems().add("new Colors ADDED!");
+                        hBox2.getChildren().remove(colorBox);
+                        hBox2.getChildren().add(colorBox);
                     }
                 });
 
@@ -200,7 +209,11 @@ public class SearchPageController implements Initializable {
                     int size = sizeBox.getSelectionModel().getSelectedItem();
                     String color = colorBox.getSelectionModel().getSelectedItem();
                     System.out.println("Size : " + size + " Color : " + color + "Model is : " + model.toString() + " Shoe is ...");
-                    willAddedShoe.set(new Shoe(4, 4, 44, "Black", 44));
+                    willAddedShoe.set(new Shoe(value.getModelID(),
+                            DBHandler.getShoeIdByModelIdColorSize(value.getModelID(), sizeBox.getSelectionModel().getSelectedItem(), colorBox.getSelectionModel().getSelectedItem()),
+                            sizeBox.getSelectionModel().getSelectedItem(),
+                            colorBox.getSelectionModel().getSelectedItem(), -1)
+                    );
                 });
 
 
@@ -209,8 +222,10 @@ public class SearchPageController implements Initializable {
                 Button addBasketBtn = new Button("Add To Basket");
 
                 addBasketBtn.setOnAction((evv) -> {
-                    User.user.getBasket().add(willAddedShoe.get());
-                    System.out.println(User.user.getBasket().toString());
+                    //User.user.getBasket().add(willAddedShoe.get());
+                    AlertSystem.getAlert(ErrorType.INFORMATION, "Added to basket!");
+                    DBHandler.addToUserBasketByShoeId(willAddedShoe.get().getShoeID());
+                    //System.out.println(User.user.getBasket().toString());
                 });
 
                 vbox2.getChildren().addAll(new Text(model.toString()), hBox2, addBasketBtn);

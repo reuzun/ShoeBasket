@@ -506,4 +506,62 @@ public class DBHandler {
 
         return modelList;
     }
+
+    public static List<Integer> getSizeByModelId(int modelId){
+        try {
+            List<Integer> sizeList = new ArrayList<>();
+
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery("SELECT size FROM model INNER JOIN shoe ON model.ModelID = shoe.ModelID WHERE model.ModelID = " + modelId);
+
+            while (rs.next()) {
+                sizeList.add(rs.getInt(1));
+            }
+
+            return sizeList;
+        }catch (Exception e){
+            System.out.println("Error ocurred!");
+        }
+            return new ArrayList<>();
+    }
+
+    public static List<String> getColorByModelId(int modelId, Integer selectedItem) {
+        try {
+            List<String> sizeList = new ArrayList<>();
+
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery("SELECT color FROM model INNER JOIN shoe ON model.ModelID = shoe.ModelID WHERE model.ModelID = " + modelId + " AND shoe.size = " + selectedItem);
+
+            while (rs.next()) {
+                sizeList.add(rs.getNString(1));
+            }
+
+            return sizeList;
+        }catch (Exception e){
+            System.out.println("Error ocurred!");
+        }
+        return new ArrayList<>();
+    }
+
+    public static int getShoeIdByModelIdColorSize(int modelId, int size, String color) {
+        try {
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery("SELECT shoeid FROM shoe WHERE modelid = " + modelId + " AND size = " + size + " AND color = \"" + color + "\"" );
+            rs.next();
+            return rs.getInt(1);
+        }catch (Exception e){}
+        return -1;
+    }
+
+    public static boolean addToUserBasketByShoeId(int shoeID) {
+        try {
+            PreparedStatement ps = con.prepareStatement("INSERT INTO basket_contains VALUES (?, ?) ");
+            ps.setString(1, User.user.getUsername());
+            ps.setInt(2, shoeID);
+            return ps.execute();
+        }catch (Exception e){
+            System.out.println("Error ocurred!");
+        }
+        return false;
+    }
 }
