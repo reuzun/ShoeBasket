@@ -5,6 +5,8 @@ import ceng.estu.main.Main;
 import ceng.estu.model.Model;
 import ceng.estu.model.ModelType;
 import ceng.estu.model.Shoe;
+import ceng.estu.utilities.AlertSystem;
+import ceng.estu.utilities.ErrorType;
 import ceng.estu.utilities.Utilities;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -76,7 +78,7 @@ public class AdminManagePageController implements Initializable {
     }
 
     @javafx.fxml.FXML
-    public void updateShoe(ActionEvent actionEvent) throws IOException, URISyntaxException, SQLException {
+    public void updateShoe() throws IOException, URISyntaxException, SQLException {
         //updatePane.getChildren().add(txt); can be edited dynamically
         //Shoe shoe = new Shoe(4,7,34,"Black",123);
         Shoe shoe = DBHandler.getShoeByShoeId( updateRemoveShoeID.getText() );
@@ -104,10 +106,11 @@ public class AdminManagePageController implements Initializable {
 
     static Object[] updateModelValues = new Object[6];
     @javafx.fxml.FXML
-    public void updateModel(ActionEvent actionEvent) throws IOException {
+    public void updateModel() throws IOException {
         //get model from modelID
 
         Model model = DBHandler.getModelByModelId( Integer.parseInt(updateRemoveModelID.getText()) );
+
 
         Scene scene = new Scene(Main.loadFXML("UpdateModelPage"));
         ((UpdateModelPageController)Main.getLastLoader()).modelID.setText(String.valueOf(model.getModelID()));
@@ -156,16 +159,25 @@ public class AdminManagePageController implements Initializable {
 
         tv.getColumns().addAll(column1,column2,column3,column4,column5,column6);
 
-        //get datas from db
-        /*
-        tv.getItems().add(new Model(4,"asdasd","asdasd",ModelType.Boot,148.57,-1.0));
-        tv.getItems().add(new Model(42,"asdasasdd","asdaasdsd",ModelType.Boot,12348.57,-123.0));
-        */
+
+        tv.setOnMouseClicked(e -> {
+            if(e.getClickCount() == 2) {
+                updateRemoveModelID.setText(String.valueOf(tv.getSelectionModel().getSelectedItem().getModelID()));
+                try {
+                    updateModel();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+
 
         List<Model> list = DBHandler.getModelsByKeyValues("str", "BrandName", brandName.getText(),
                 "strlike","ModelName", modelName.getText(),
-                "str","Type", String.valueOf( modelType.getSelectionModel().getSelectedItem() )
-        );
+                "str","Type", String.valueOf( modelType.getSelectionModel().getSelectedItem()),
+                        "int","modelid", updateRemoveModelID.getText()
+                );
+
 
         tv.getItems().addAll( list );
 
@@ -206,13 +218,21 @@ public class AdminManagePageController implements Initializable {
 
         tv.getColumns().addAll(column1,column2,column3,column4,column5);
 
-        //get datas from db
-        /*tv.getItems().add(new Shoe(4,7,34,"Black",123));
-        tv.getItems().add(new Shoe(42,7,36,"White",126));*/
+        tv.setOnMouseClicked(e -> {
+            if(e.getClickCount() == 2) {
+                updateRemoveShoeID.setText(String.valueOf(tv.getSelectionModel().getSelectedItem().getShoeID()));
+                try {
+                    updateShoe();
+                } catch (IOException | URISyntaxException | SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
 
         List<Shoe> list = DBHandler.getShoesByKeyValues("int", "modelId", addShoeModelID.getText(),
                 "str","Color", shoeColorChoiceBox.getSelectionModel().getSelectedItem(),
-                "int","Size", String.valueOf( shoeSizeChoiceBox.getSelectionModel().getSelectedItem() )
+                "int","Size", String.valueOf( shoeSizeChoiceBox.getSelectionModel().getSelectedItem() ),
+                "int","shoeid", updateRemoveShoeID.getText()
         );
 
         tv.getItems().addAll( list );
@@ -232,19 +252,67 @@ public class AdminManagePageController implements Initializable {
 
     @javafx.fxml.FXML
     public void removeModel(ActionEvent actionEvent) {
+        try {
+            DBHandler.deleteModelByModelId(
+                    Integer.parseInt( updateRemoveModelID.getText() )
+            );
+
+            AlertSystem.getAlert(ErrorType.INFORMATION, "Done!");
+
+        }catch (Exception e){
+            AlertSystem.getAlert(ErrorType.ERROR, "This model has shoes that is in relation with some shoes \n" +
+                    "so that it is not allowed to delete it!");
+        }
     }
 
     @javafx.fxml.FXML
     public void removeShoe(ActionEvent actionEvent) {
+        try {
+            DBHandler.deleteShoeByShoeId(
+                    updateRemoveShoeID.getText()
+            );
+
+            AlertSystem.getAlert(ErrorType.INFORMATION, "Done!");
+
+        }catch (Exception e){
+            AlertSystem.getAlert(ErrorType.ERROR, "This shoe is sold before. To let Database have datas which is belong to past\n" +
+                    "you are unable to delete it!");
+        }
     }
 
 
     @FXML
-    public void addShoe(ActionEvent actionEvent) {
+    public void addShoe(ActionEvent actionEvent) throws SQLException {
+        try {
+            DBHandler.insertShoe(
+                    Integer.parseInt(addShoeModelID.getText()),
+                    shoeSizeChoiceBox.getSelectionModel().getSelectedItem(),
+                    shoeColorChoiceBox.getSelectionModel().getSelectedItem(),
+                    Integer.parseInt(shoeCount.getText())
+            );
+
+            AlertSystem.getAlert(ErrorType.INFORMATION, "Done!");
+
+        }catch (Exception e){
+            AlertSystem.getAlert(ErrorType.ERROR, "An error has ocurred!");
+        }
     }
 
     @javafx.fxml.FXML
-    public void addModel(ActionEvent actionEvent) {
+    public void addModel(ActionEvent actionEvent) throws SQLException {
+        try {
+            DBHandler.insertModel(
+                    modelName.getText(),
+                    brandName.getText(),
+                    modelType.getSelectionModel().getSelectedItem(),
+                    Double.parseDouble(price.getText().replace(",", "."))
+            );
+
+            AlertSystem.getAlert(ErrorType.INFORMATION, "Done!");
+
+        }catch (Exception e){
+            AlertSystem.getAlert(ErrorType.ERROR, "An error has ocurred!");
+        }
     }
 
 

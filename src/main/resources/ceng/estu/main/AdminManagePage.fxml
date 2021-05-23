@@ -20,7 +20,7 @@
             <Font size="22.0" />
          </font>
       </Text>
-      <Text layoutX="78.0" layoutY="360.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Model:" />
+      <Text layoutX="72.0" layoutY="360.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Model Id" />
       <ChoiceBox fx:id="shoeColorChoiceBox" layoutX="124.0" layoutY="396.0" prefWidth="150.0" />
       <Text layoutX="81.0" layoutY="413.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Color:" />
       <ChoiceBox fx:id="shoeSizeChoiceBox" layoutX="124.0" layoutY="445.0" prefWidth="150.0" />

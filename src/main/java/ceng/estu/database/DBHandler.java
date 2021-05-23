@@ -391,4 +391,33 @@ public class DBHandler {
         return listShoe;
 
     }
+
+    public static boolean insertModel(String modelName, String brandName, String type, double price) throws SQLException {
+        PreparedStatement ps = con.prepareStatement("INSERT INTO MODEL VALUES (DEFAULT ,?,?,?,?,NULL)");
+        ps.setString(1, modelName);
+        ps.setString(2, brandName);
+        ps.setString(3, type);
+        ps.setDouble(4, price);
+        return ps.execute();
+    }
+
+    public static boolean insertShoe(int modelId, int size, String color, int count) throws SQLException {
+        PreparedStatement ps = con.prepareStatement("INSERT INTO SHOE VALUES (? ,DEFAULT ,?,?,?)");
+        ps.setInt(1, modelId);
+        ps.setInt(2, size);
+        ps.setString(3, color);
+        ps.setInt(4, count);
+        return ps.execute();
+    }
+
+    public static boolean deleteShoeByShoeId(String shoeId) throws SQLException {
+        Statement st = con.createStatement();
+        return st.execute("DELETE FROM shoe WHERE shoeId = " + shoeId);
+    }
+
+    public static boolean deleteModelByModelId(int modelId) throws SQLException {
+        Statement st = con.createStatement();
+        return st.execute("DELETE FROM model WHERE modelId = " + modelId);
+    }
+
 }
