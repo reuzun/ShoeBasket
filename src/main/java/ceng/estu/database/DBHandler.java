@@ -83,24 +83,32 @@ public class DBHandler {
     public static boolean signUp(String username, String password, String email, String name, String surname, String address, String phoneNo) throws Exception {
         try {
             Statement st = con.createStatement();
-            st.executeUpdate("Insert into users values(" +
+            String query = "Insert into users values(" +
                     "\"" + username +  "\"," +
                     "\"" + password +  "\"," +
                     "\"" + email +  "\"," +
                     "\"" + name +  "\"," +
                     "\"" + surname +  "\"," +
-                    " \"User\")");
+                    " \"User\")";
+            System.out.println( MyDate.refresh() + " : " + query.replace("\n",""));
+            st.executeUpdate(query);
 
             Statement stAddress = con.createStatement();
-            stAddress.executeUpdate("Insert into user_adresses values(" +
+            query = "Insert into user_adresses values(" +
                     "\"" + username +  "\"," +
-                    "\"" + address +  "\")"
+                    "\"" + address +  "\")";
+
+            System.out.println( MyDate.refresh() + " : " + query.replace("\n",""));
+
+            stAddress.executeUpdate(query
                     );
 
             Statement stPhone = con.createStatement();
-            stPhone.executeUpdate("Insert into user_phoneno values(" +
+            query = "Insert into user_phoneno values(" +
                     "\"" + username +  "\"," +
-                    "\"" + phoneNo +  "\")"
+                    "\"" + phoneNo +  "\")";
+            System.out.println( MyDate.refresh() + " : " + query.replace("\n",""));
+            stPhone.executeUpdate(query
             );
 
             return true;
@@ -113,7 +121,9 @@ public class DBHandler {
     public static List<Model> randomModels() throws SQLException {
         List<Model> modelList = new ArrayList<>();
         Statement st = con.createStatement();
-        ResultSet rs = st.executeQuery("SELECT * FROM `model` order by rand() limit 50");
+        String query = "SELECT * FROM `model` order by rand() limit 50";
+        System.out.println( MyDate.refresh() + " : " + query.replace("\n",""));
+        ResultSet rs = st.executeQuery(query);
 
         while(rs.next()){
             ModelType modelType;
