@@ -49,10 +49,14 @@ public class UserBasketController implements Initializable {
             AlertSystem.getAlert(ErrorType.ERROR,"Error occurred!");
         }
 
+        initialize(null, null);
+
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        adressBox.getItems().clear();
 
         adressBox.getItems().addAll( User.user.getAddresses() );
 

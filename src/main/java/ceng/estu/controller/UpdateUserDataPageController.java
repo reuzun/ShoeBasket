@@ -30,6 +30,27 @@ public class UpdateUserDataPageController implements Initializable, Controllable
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        /*phoneTextField.setOnAction(event -> {
+            String a = phoneTextField.getText();
+            if(a.contains("[^a-Z]")){
+
+            }else
+                phoneTextField.setText("Please enter number. Not a letter.");
+        });*/
+
+        phoneTextField.setOnKeyTyped(event -> {
+                String a = phoneTextField.getText();
+                if(a.matches(".*[a-zA-Z].*")){
+                    phoneTextField.clear();
+                    AlertSystem.getAlert(ErrorType.ERROR, "Please enter number. Not a letter.");
+                    //phoneTextField.setText();
+                    //System.out.println("b");
+                }else{
+                    //System.out.println("A");
+                }
+
+        });
+
         refresh();
     }
 
