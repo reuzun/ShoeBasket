@@ -5,7 +5,9 @@ import ceng.estu.utilities.AlertSystem;
 import ceng.estu.utilities.ErrorType;
 import ceng.estu.utilities.MyDate;
 import ceng.estu.utilities.SortType;
+import com.mysql.cj.protocol.Resultset;
 
+import javax.swing.plaf.nimbus.State;
 import javax.xml.transform.Result;
 import java.sql.*;
 import java.time.Instant;
@@ -790,4 +792,40 @@ public class DBHandler {
         return rs.getNString(1) + "( " + rs.getDouble(4) + " )";
 
     }
+
+    public static String[] findBestSellerModelId() throws SQLException {
+        String query = "SELECT model.ModelID," +
+                " COUNT(model.ModelId) AS sell_Count" +
+                " FROM (shoe_sold INNER JOIN shoe ON shoe_sold.ShoeID = shoe.ShoeID)" +
+                " INNER JOIN model ON shoe.ModelID = model.ModelID GROUP BY model.ModelID" +
+                " ORDER BY sell_Count DESC";
+
+        Statement st = con.createStatement();
+
+        ResultSet rs = st.executeQuery(query);
+
+        rs.next();
+
+        return new String[]{String.valueOf(rs.getInt(1)), String.valueOf(rs.getInt(2))};
+
+    }
+
+    public static String[] bestMoneySpender() throws SQLException {
+        String query = "SELECT username," +
+                " SUM(shoe_sold.PRICE) AS sumprice" +
+                " FROM (shoe_sold INNER JOIN shoe ON shoe_sold.ShoeID = shoe.ShoeID)" +
+                " INNER JOIN model ON shoe.ModelID = model.ModelID" +
+                " GROUP BY shoe_sold.Username" +
+                " ORDER BY sumprice DESC";
+
+        Statement st = con.createStatement();
+
+        ResultSet rs = st.executeQuery(query);
+
+        rs.next();
+
+        return new String[]{String.valueOf(rs.getNString(1)), String.valueOf(rs.getInt(2))};
+
+    }
+
 }

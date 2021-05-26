@@ -16,6 +16,9 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -269,14 +272,35 @@ public class AdminManagePageController implements Initializable {
     public void calculateQueries(ActionEvent actionEvent) throws SQLException {
         int userCount = DBHandler.userCount();
 
-        //String[] bestSellerModel = DBHandler.findBest("shoe_sold", "modelId");
-        String[] bestBuyerOfShop = DBHandler.findBest("shoe_sold", "username");;
+        String[] bestSellerModelId = DBHandler.findBestSellerModelId();
+        String[] bestBuyerOfShop = DBHandler.findBest("shoe_sold", "username");
+        String[] bestMoneyGiver = DBHandler.bestMoneySpender();
         String bestBrand = DBHandler.getMostSuccessfulBrand();
 
-        System.out.println(userCount);
-        System.out.println(Arrays.toString(bestBuyerOfShop));
-        System.out.println(bestBrand);
-        System.out.println();
+        Stage stage = new Stage();
+
+        stage.setTitle("Query Results");
+
+        Pane pane = new Pane();
+
+        stage.setResizable(false);
+
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("   User count is : " + userCount);
+        sb.append("   \n   Best seller model ID is : " + Arrays.toString(bestSellerModelId));
+        sb.append("   \n   Most product buyer is : " + Arrays.toString(bestBuyerOfShop));
+        sb.append("   \n   Most money spender is : " + Arrays.toString(bestMoneyGiver));
+        sb.append("   \n   Best brand is : " + bestBrand);
+        Text text = new Text(sb.toString());
+
+        text.setFont(Font.font(22));
+
+        pane.getChildren().add(text);
+
+        stage.setScene(new Scene(pane));
+
+        stage.show();
 
     }
 
