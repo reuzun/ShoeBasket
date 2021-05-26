@@ -41,6 +41,12 @@ public class Main extends Application {
         return fxmlLoader.load();
     }
 
+    public static Parent loadFXMLA(String fxml) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(fxml + ".fxml"));
+        //loader = fxmlLoader;
+        return fxmlLoader.load();
+    }
+
     public static Controllable getLastLoader(){
         return Main.loader.getController();
     }

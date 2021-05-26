@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
@@ -46,8 +47,12 @@ public class UserPageController implements Initializable {
         GUIPane.setCenter(searchPage.getRoot());
     }
 
-    @FXML
-    public void setBasketPane(ActionEvent actionEvent) {
+    @FXML // Can cause bugs since it changes main.lastController!
+    public void setBasketPane(ActionEvent actionEvent) throws IOException {
+        Scene scene = new Scene(Main.loadFXMLA(("UserBasket")));
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.show();
     }
 
     @FXML

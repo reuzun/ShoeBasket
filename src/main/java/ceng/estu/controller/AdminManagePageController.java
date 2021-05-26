@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -81,6 +82,11 @@ public class AdminManagePageController implements Initializable {
     public void updateShoe() throws IOException, URISyntaxException, SQLException {
         //updatePane.getChildren().add(txt); can be edited dynamically
         //Shoe shoe = new Shoe(4,7,34,"Black",123);
+        if(updateRemoveShoeID.getText().length() == 0) {
+            AlertSystem.getAlert(ErrorType.ERROR, "Please enter a valid input!");
+            return;
+        }
+
         Shoe shoe = DBHandler.getShoeByShoeId( updateRemoveShoeID.getText() );
 
         Scene scene = new Scene(Main.loadFXML("UpdateShoePage"));
@@ -104,11 +110,14 @@ public class AdminManagePageController implements Initializable {
 
     }
 
-    static Object[] updateModelValues = new Object[6];
     @javafx.fxml.FXML
     public void updateModel() throws IOException {
         //get model from modelID
 
+        if(updateRemoveModelID.getText().length() == 0) {
+            AlertSystem.getAlert(ErrorType.ERROR, "Please enter a valid input!");
+            return;
+        }
         Model model = DBHandler.getModelByModelId( Integer.parseInt(updateRemoveModelID.getText()) );
 
 
@@ -171,12 +180,16 @@ public class AdminManagePageController implements Initializable {
             }
         });
 
-
-        List<Model> list = DBHandler.getModelsByKeyValues("str", "BrandName", brandName.getText(),
-                "strlike","ModelName", modelName.getText(),
-                "str","Type", String.valueOf( modelType.getSelectionModel().getSelectedItem()),
-                        "int","modelid", updateRemoveModelID.getText()
-                );
+        List<Model> list = null;
+        try {
+            list = DBHandler.getModelsByKeyValues("str", "BrandName", brandName.getText(),
+                    "strlike", "ModelName", modelName.getText(),
+                    "str", "Type", String.valueOf(modelType.getSelectionModel().getSelectedItem()),
+                    "int", "modelid", updateRemoveModelID.getText()
+            );
+        }catch (Exception e){
+            AlertSystem.getAlert(ErrorType.ERROR,"Please enter at least 1 paramater. If another error occurs we dont know why :D");
+        }
 
 
         tv.getItems().addAll( list );
@@ -230,11 +243,16 @@ public class AdminManagePageController implements Initializable {
             }
         });
 
-        List<Shoe> list = DBHandler.getShoesByKeyValues("int", "modelId", addShoeModelID.getText(),
-                "str","Color", shoeColorChoiceBox.getSelectionModel().getSelectedItem(),
-                "int","Size", String.valueOf( shoeSizeChoiceBox.getSelectionModel().getSelectedItem() ),
-                "int","shoeid", updateRemoveShoeID.getText()
-        );
+        List<Shoe> list = null;
+        try {
+             list = DBHandler.getShoesByKeyValues("int", "modelId", addShoeModelID.getText(),
+                    "str", "Color", shoeColorChoiceBox.getSelectionModel().getSelectedItem(),
+                    "int", "Size", String.valueOf(shoeSizeChoiceBox.getSelectionModel().getSelectedItem()),
+                    "int", "shoeid", updateRemoveShoeID.getText()
+            );
+        }catch (Exception e){
+            AlertSystem.getAlert(ErrorType.ERROR,"Please enter at least 1 paramater. If another error occurs we dont know why :D");
+        }
 
         tv.getItems().addAll( list );
 
@@ -248,7 +266,18 @@ public class AdminManagePageController implements Initializable {
     }
 
     @javafx.fxml.FXML
-    public void calculateQueries(ActionEvent actionEvent) {
+    public void calculateQueries(ActionEvent actionEvent) throws SQLException {
+        int userCount = DBHandler.userCount();
+
+        //String[] bestSellerModel = DBHandler.findBest("shoe_sold", "modelId");
+        String[] bestBuyerOfShop = DBHandler.findBest("shoe_sold", "username");;
+        String bestBrand = DBHandler.getMostSuccessfulBrand();
+
+        System.out.println(userCount);
+        System.out.println(Arrays.toString(bestBuyerOfShop));
+        System.out.println(bestBrand);
+        System.out.println();
+
     }
 
 

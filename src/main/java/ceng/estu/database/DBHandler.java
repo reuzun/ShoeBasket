@@ -6,6 +6,7 @@ import ceng.estu.utilities.ErrorType;
 import ceng.estu.utilities.MyDate;
 import ceng.estu.utilities.SortType;
 
+import javax.xml.transform.Result;
 import java.sql.*;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -221,7 +222,7 @@ public class DBHandler {
         List<Shoe> shoeList = new ArrayList<>();
 
         Statement st = con.createStatement();
-        String query = "SELECT * FROM shoe_sold INNER JOIN shoe ON shoe_sold.shoeId = shoe.ShoeID where Username = \"" + User.user.getUsername() + "\" " + "order by rand() limit 50";
+        String query = "SELECT * FROM shoe_sold INNER JOIN shoe ON shoe_sold.shoeId = shoe.ShoeID where Username = \"" + User.user.getUsername() + "\" " + "ORDER BY shoe_sold.SaleDate DESC limit 50";
         System.out.println( MyDate.refresh() + " : " + query.replace("\n",""));
         ResultSet rs = st.executeQuery(query);
 
@@ -229,8 +230,8 @@ public class DBHandler {
 
         while (rs.next()){
             Shoe shoe = new Shoe(
-                    rs.getInt(2),
                     rs.getInt(6),
+                    rs.getInt(2),
                     rs.getInt(8),
                     rs.getNString(9),
                     rs.getInt(10)
@@ -242,7 +243,7 @@ public class DBHandler {
             ResultSet rs2 = st2.executeQuery( query );
             rs2.next();
 
-            shoe.setModelProperties(
+            shoe.setModelPropertiesForSale(
                     rs2.getNString(3),
                     rs2.getNString(4),
                     rs.getDouble(4),
@@ -683,5 +684,110 @@ public class DBHandler {
         User.user.getAddresses().remove(adressIndex);
         System.out.println( MyDate.refresh() + " : " + query.replace("\n",""));
         return st.execute(query);
+    }
+
+    public static List<Shoe> getUserBasket() throws SQLException {
+        Statement st = con.createStatement();
+        String query = "SELECT shoe.ShoeID, type, BrandName, ModelName, color, size, price" +
+                " FROM (basket_contains INNER JOIN shoe ON basket_contains.ShoeID = shoe.ShoeID) " +
+                "INNER JOIN model ON shoe.ModelID = model.ModelID WHERE username = \"" + User.user.getUsername() + "\"";
+
+        ResultSet rs = st.executeQuery(query);
+
+        List<Shoe> shoeBasket = new ArrayList<>();
+
+        while(rs.next()){
+            int shoeId = rs.getInt(1);
+            String type = rs.getNString(2);
+            String brandName = rs.getNString(3);
+            String modelName = rs.getNString(4);
+            String color = rs.getNString(5);
+            int size = rs.getInt(6);
+            double price = rs.getInt(7);
+
+            Shoe shoe = new Shoe(-1, shoeId, size, color, -1);
+            shoe.setModelPropertiesForBasket(modelName, brandName, type, price);
+
+            shoeBasket.add(shoe);
+        }
+
+        System.out.println( MyDate.refresh() + " : " + query.replace("\n",""));
+        return shoeBasket;
+    }
+
+    public static boolean removeFromUserBasket(int shoeId) throws SQLException{
+        Statement st = con.createStatement();
+        String query = "DELETE FROM basket_contains WHERE shoeId = " + shoeId + " AND username = \"" + User.user.getUsername() + "\"";
+        System.out.println( MyDate.refresh() + " : " + query.replace("\n",""));
+        return st.execute(query);
+    }
+
+    public static boolean buyUserBasket(List<Shoe> list, String address) throws SQLException {
+
+        for(Shoe s : list){
+
+            Statement st = con.createStatement();
+            String query = "INSERT INTO shoe_sold VALUES (\"" + User.user.getUsername() + "\", " + s.getShoeID() + ", NOW(), " + s.getBoughtPrice() + ", \"" + address + "\")";
+            System.out.println( MyDate.refresh() + " : " + query.replace("\n",""));
+            st.execute(query);
+
+            Statement st2 = con.createStatement();
+            query = "UPDATE shoe SET count = count - 1 WHERE shoeid = " + s.getShoeID();
+            System.out.println( MyDate.refresh() + " : " + query.replace("\n",""));
+            st2.execute(query);
+
+            removeFromUserBasket(s.getShoeID());
+        }
+
+        return true;
+    }
+
+    public static String[] findBest (String table, String column) throws SQLException {
+        String query = "SELECT       "+ column +" ,\n" +
+                "             COUNT(" + column + ") AS `value_occurrence` \n" +
+                "    FROM     "+ table +"\n" +
+                "    GROUP BY " + column + "\n" +
+                "    ORDER BY `value_occurrence` DESC\n" +
+                "    LIMIT    1;";
+        Statement st = con.createStatement();
+        ResultSet rs = st.executeQuery(query);
+        rs.next();
+
+        String a;
+
+        try{
+            a = rs.getNString(1);
+        }catch (Exception e){
+            a = String.valueOf( rs.getInt(1) );
+        }
+
+        return new String[]{a, String.valueOf(rs.getInt(2))};
+
+    }
+
+    public static int userCount() throws SQLException {
+        String query = "SELECT COUNT(\"username\") from users";
+        Statement st = con.createStatement();
+        ResultSet rs = st.executeQuery(query);
+        rs.next();
+
+        return rs.getInt(1);
+    }
+
+    public static String getMostSuccessfulBrand() throws SQLException {
+        String query = "SELECT BrandName," +
+                " COUNT(ModelId) AS Model_COUNT," +
+                " SUM(customerRating) AS totalRating," +
+                " SUM(customerRating)/COUNT(ModelId) AS indicator" +
+                " FROM model GROUP BY brandName ORDER BY indicator DESC";
+
+        Statement st = con.createStatement();
+
+        ResultSet rs = st.executeQuery(query);
+
+        rs.next();
+
+        return rs.getNString(1) + "( " + rs.getDouble(4) + " )";
+
     }
 }

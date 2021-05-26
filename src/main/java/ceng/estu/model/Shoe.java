@@ -94,11 +94,20 @@ public class Shoe {
     //Model properties for last bought section
 
 
-    public void setModelProperties(String brand, String type, double boughtPrice, Date date){
+    public void setModelPropertiesForSale(String brand, String type, double boughtPrice, Date date){
         this.brand = brand;
         this.type = type;
         this.boughtPrice = boughtPrice;
         this.date = date;
+    }
+
+    public String modelName;
+    public void setModelPropertiesForBasket(String modelName, String brand, String type, double price){
+        this.modelName = modelName;
+        this.brand = brand;
+        this.type = type;
+        this.boughtPrice = price;
+
     }
 
 
