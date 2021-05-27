@@ -96,7 +96,7 @@ public class DBHandler {
             System.out.println( MyDate.refresh() + " : " + query.replace("\n",""));
             st.executeUpdate(query);
 
-            if (address!=null && address.length() != 0 ) {
+            if (address!=null && address.length() != 0 && address.replace(" ","").length() != 0 ) {
                 Statement stAddress = con.createStatement();
                 query = "Insert into user_adresses values(" +
                         "\"" + username + "\"," +
@@ -644,26 +644,30 @@ public class DBHandler {
     public static boolean addAdress(String text, int adressIndex) throws SQLException {
         Statement st = con.createStatement();
         String query = "INSERT INTO user_adresses values (\"" + User.user.getUsername() + "\", \"" + text + "\")";
+        st.execute(query);
         User.user.getAddresses().add(text);
         System.out.println( MyDate.refresh() + " : " + query.replace("\n",""));
-        return st.execute(query);
+        return true;
     }
 
     public static boolean addPhoneNo(String text, int phoneIndex) throws SQLException {
         Statement st = con.createStatement();
+
         String query = "INSERT INTO user_phoneno values (\"" + User.user.getUsername() + "\", \"" + text + "\")";
+        st.execute(query);
         User.user.getPhoneNos().add(text);
         System.out.println( MyDate.refresh() + " : " + query.replace("\n",""));
-        return st.execute(query);
+        return true;
     }
 
     public static boolean updatePhoneNo(String text, int phoneIndex) throws SQLException {
         Statement st = con.createStatement();
         String query = "UPDATE user_phoneno SET phoneno = " + text + " WHERE username = \"" + User.user.getUsername() + "\"" +
                 " AND phoneno = \"" + User.user.getPhoneNos().get(phoneIndex) + "\"" ;
+        st.execute(query);
         User.user.getPhoneNos().set(phoneIndex, text);
         System.out.println( MyDate.refresh() + " : " + query.replace("\n",""));
-        return st.execute(query);
+        return true;
     }
 
     public static boolean updateAdress(String text, int adressIndex) throws SQLException {
@@ -671,24 +675,27 @@ public class DBHandler {
         String query = "UPDATE user_adresses SET adress = \"" + text + "\" WHERE username = \"" + User.user.getUsername() + "\"" +
                 " AND adress = \"" + User.user.getAddresses().get(adressIndex) + "\"";
         User.user.getAddresses().set(adressIndex, text);
+        st.execute(query);
         System.out.println( MyDate.refresh() + " : " + query.replace("\n",""));
-        return st.execute(query);
+        return true;
     }
 
     public static boolean deletePhone(String text, int phoneIndex) throws SQLException {
         Statement st = con.createStatement();
         String query = "DELETE FROM user_phoneno WHERE phoneno = " + text;
+        st.execute(query);
         User.user.getPhoneNos().remove(phoneIndex);
         System.out.println( MyDate.refresh() + " : " + query.replace("\n",""));
-        return st.execute(query);
+        return true;
     }
 
     public static boolean deleteAdress(String text, int adressIndex) throws SQLException {
         Statement st = con.createStatement();
         String query = "DELETE FROM user_adresses WHERE adress = \"" + text + "\"";
+        st.execute(query);
         User.user.getAddresses().remove(adressIndex);
         System.out.println( MyDate.refresh() + " : " + query.replace("\n",""));
-        return st.execute(query);
+        return true;
     }
 
     public static List<Shoe> getUserBasket() throws SQLException {

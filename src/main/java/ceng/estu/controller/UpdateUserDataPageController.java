@@ -96,7 +96,7 @@ public class UpdateUserDataPageController implements Initializable, Controllable
             AlertSystem.getAlert(ErrorType.INFORMATION, "Done!");
             ( (UpdateUserDataPageController)Main.getLastLoader() ).refresh();
         }catch (Exception e){
-            e.printStackTrace();
+            //e.printStackTrace();
             AlertSystem.getAlert(ErrorType.ERROR, "An error is occured!");
         }
     }
@@ -107,7 +107,7 @@ public class UpdateUserDataPageController implements Initializable, Controllable
             AlertSystem.getAlert(ErrorType.INFORMATION, "Done!");
             ( (UpdateUserDataPageController)Main.getLastLoader() ).refresh();
         }catch (Exception e){
-            e.printStackTrace();
+            //e.printStackTrace();
             AlertSystem.getAlert(ErrorType.ERROR, "An error is occured!");
         }
     }
@@ -119,7 +119,7 @@ public class UpdateUserDataPageController implements Initializable, Controllable
             AlertSystem.getAlert(ErrorType.INFORMATION, "Done!");
             ( (UpdateUserDataPageController)Main.getLastLoader() ).refresh();
         }catch (Exception e){
-            e.printStackTrace();
+            //e.printStackTrace();
             AlertSystem.getAlert(ErrorType.ERROR, "An error is occured!");
         }
     }
@@ -131,7 +131,7 @@ public class UpdateUserDataPageController implements Initializable, Controllable
             AlertSystem.getAlert(ErrorType.INFORMATION, "Done!");
             ( (UpdateUserDataPageController)Main.getLastLoader() ).refresh();
         }catch (Exception e){
-            e.printStackTrace();
+            //e.printStackTrace();
             AlertSystem.getAlert(ErrorType.ERROR, "An error is occured!");
         }
     }
@@ -143,7 +143,7 @@ public class UpdateUserDataPageController implements Initializable, Controllable
             AlertSystem.getAlert(ErrorType.INFORMATION, "Done!");
             ( (UpdateUserDataPageController)Main.getLastLoader() ).refresh();
         }catch (Exception e){
-            e.printStackTrace();
+            //e.printStackTrace();
             AlertSystem.getAlert(ErrorType.ERROR, "An error is occured!");
         }
     }
@@ -155,7 +155,7 @@ public class UpdateUserDataPageController implements Initializable, Controllable
             AlertSystem.getAlert(ErrorType.INFORMATION, "Done!");
             ( (UpdateUserDataPageController)Main.getLastLoader() ).refresh();
         }catch (Exception e){
-            e.printStackTrace();
+            //e.printStackTrace();
             AlertSystem.getAlert(ErrorType.ERROR, "An error is occured!");
         }
     }
