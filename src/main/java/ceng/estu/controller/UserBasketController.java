@@ -40,6 +40,11 @@ public class UserBasketController implements Initializable {
     @javafx.fxml.FXML
     public void buyItemsOnBasket(ActionEvent actionEvent) throws SQLException {
 
+        if( adressBox.getSelectionModel().getSelectedItem() == null ) {
+            AlertSystem.getAlert(ErrorType.ERROR, "Please select an address.!");
+            return;
+        }
+
         try {
             List<Shoe> list = DBHandler.getUserBasket();
 

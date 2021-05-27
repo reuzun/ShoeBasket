@@ -96,23 +96,26 @@ public class DBHandler {
             System.out.println( MyDate.refresh() + " : " + query.replace("\n",""));
             st.executeUpdate(query);
 
-            Statement stAddress = con.createStatement();
-            query = "Insert into user_adresses values(" +
-                    "\"" + username +  "\"," +
-                    "\"" + address +  "\")";
+            if (address!=null && address.length() != 0 ) {
+                Statement stAddress = con.createStatement();
+                query = "Insert into user_adresses values(" +
+                        "\"" + username + "\"," +
+                        "\"" + address + "\")";
 
-            System.out.println( MyDate.refresh() + " : " + query.replace("\n",""));
+                System.out.println(MyDate.refresh() + " : " + query.replace("\n", ""));
 
-            stAddress.executeUpdate(query
-                    );
-
-            Statement stPhone = con.createStatement();
-            query = "Insert into user_phoneno values(" +
-                    "\"" + username +  "\"," +
-                    "\"" + phoneNo +  "\")";
-            System.out.println( MyDate.refresh() + " : " + query.replace("\n",""));
-            stPhone.executeUpdate(query
-            );
+                stAddress.executeUpdate(query
+                );
+            }
+            if (phoneNo!=null && phoneNo.length() != 0 ) {
+                Statement stPhone = con.createStatement();
+                query = "Insert into user_phoneno values(" +
+                        "\"" + username + "\"," +
+                        "\"" + phoneNo + "\")";
+                System.out.println(MyDate.refresh() + " : " + query.replace("\n", ""));
+                stPhone.executeUpdate(query
+                );
+            }
 
             return true;
         }catch (Exception e){
