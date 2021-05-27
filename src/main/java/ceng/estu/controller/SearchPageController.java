@@ -24,6 +24,7 @@ import javafx.scene.shape.Ellipse;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.awt.*;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -144,12 +145,16 @@ public class SearchPageController implements Initializable {
             Label label = new Label();
 
             //adjusting path for intelliJ and jar file
-            String path = Utilities.getImagePath(model.getType());
+            //String path = Utilities.getImagePath(model.getType());
             //System.out.println("type : " + ModelType.Boot.toString().toLowerCase());
+            //System.out.println("Path is : " + path);
 
-            File img = new File(path);
+            //File img = new File(path);
+           // System.out.println("Type is : " + model.getType().toString().toLowerCase());
+           // System.out.println("******************************************************");
+            Image img = new Image(Utilities.getImagePath(model.getType()));
 
-            ImageView iv = new ImageView(new Image(String.valueOf(img.toURI().toURL())));
+            ImageView iv = new ImageView(img);
             iv.setFitHeight(150);
             iv.setFitWidth(150);
             iv.setClip(new Ellipse(70, 70, 70, 70));
@@ -231,14 +236,14 @@ public class SearchPageController implements Initializable {
                 vbox2.getChildren().addAll(new Text(model.toString()), hBox2, addBasketBtn);
 
 
-                String path2 = Utilities.getImagePath(model.getType());
+                //String path2 = Utilities.getImagePath(model.getType());
 
-                File img2 = new File(path2);
+                //File img2 = new File(path2);
                 ImageView iv2 = null;
 
                 try {
-                    iv2 = new ImageView(new Image(String.valueOf(img2.toURI().toURL())));
-                } catch (MalformedURLException malformedURLException) {
+                    iv2 = new ImageView(new Image(Utilities.getImagePath( model.getType() ) ) );
+                } catch (Exception malformedURLException) {
                     malformedURLException.printStackTrace();
                 }
 

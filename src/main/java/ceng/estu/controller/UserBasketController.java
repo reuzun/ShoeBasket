@@ -18,6 +18,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -35,6 +36,7 @@ public class UserBasketController implements Initializable {
     @javafx.fxml.FXML
     private ChoiceBox<String> adressBox;
 
+
     @javafx.fxml.FXML
     public void buyItemsOnBasket(ActionEvent actionEvent) throws SQLException {
 
@@ -49,7 +51,8 @@ public class UserBasketController implements Initializable {
             AlertSystem.getAlert(ErrorType.ERROR,"Error occurred!");
         }
 
-        initialize(null, null);
+        UserPageController.basketStage.close();
+        //initialize(null, null);
 
     }
 
@@ -71,14 +74,14 @@ public class UserBasketController implements Initializable {
                 HBox hbox = new HBox();
                 hbox.setSpacing(20);
 
-                String path2 = Utilities.getImagePath( ModelType.valueOf(s.getType()) );
+                //String path2 = Utilities.getImagePath( ModelType.valueOf(s.getType()) );
 
-                File img2 = new File(path2);
+                //File img2 = new File(path2);
                 ImageView iv2 = null;
 
                 try {
-                    iv2 = new ImageView(new Image(String.valueOf(img2.toURI().toURL())));
-                } catch (MalformedURLException malformedURLException) {
+                    iv2 = new ImageView( new Image(Utilities.getImagePath( ModelType.valueOf(s.getType()) ) ) );
+                } catch (Exception malformedURLException) {
                     malformedURLException.printStackTrace();
                 }
 

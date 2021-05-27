@@ -102,10 +102,10 @@ public class AdminManagePageController implements Initializable {
         int modelId = DBHandler.getModelIdByShoeId( shoe.getShoeID() );
         Model model = DBHandler.getModelByModelId(modelId);
 
-        String path2 = Utilities.getImagePath( model.getType() );
+        //String path2 = Utilities.getImagePath( model.getType() );
 
-        File file = new File(path2);
-        ((UpdateShoePageController)Main.getLastLoader()).imageView.setImage(new Image(String.valueOf(file.toURI().toURL())));
+        //File file = new File(path2);
+        ((UpdateShoePageController)Main.getLastLoader()).imageView.setImage(new Image(Utilities.getImagePath( model.getType() )));
 
         updateStage.setScene(scene);
 
@@ -131,9 +131,9 @@ public class AdminManagePageController implements Initializable {
         ((UpdateModelPageController)Main.getLastLoader()).type.setText(String.valueOf(model.getType()));
         ((UpdateModelPageController)Main.getLastLoader()).price.setText(String.valueOf(model.getPrice()));
         ((UpdateModelPageController)Main.getLastLoader()).rating.setText(String.valueOf(model.getCustomerRating()));
-        String path2 = Utilities.getImagePath( model.getType() );
-        File file = new File(path2);
-        ((UpdateModelPageController)Main.getLastLoader()).imageView.setImage(new Image(String.valueOf(file.toURI().toURL())));
+        //String path2 = Utilities.getImagePath( model.getType() );
+        //File file = new File(path2);
+        ((UpdateModelPageController)Main.getLastLoader()).imageView.setImage(new Image(Utilities.getImagePath( model.getType() ) ) );
 
         updateStage.setScene(scene);
 
@@ -287,7 +287,7 @@ public class AdminManagePageController implements Initializable {
 
         StringBuilder sb = new StringBuilder();
 
-        sb.append("   User count is : " + userCount);
+        sb.append("   \n   User count is : " + userCount);
         sb.append("   \n   Best seller model ID is : " + Arrays.toString(bestSellerModelId));
         sb.append("   \n   Most product buyer is : " + Arrays.toString(bestBuyerOfShop));
         sb.append("   \n   Most money spender is : " + Arrays.toString(bestMoneyGiver));

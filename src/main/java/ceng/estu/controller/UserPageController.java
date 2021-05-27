@@ -47,10 +47,12 @@ public class UserPageController implements Initializable {
         GUIPane.setCenter(searchPage.getRoot());
     }
 
+    public static Stage basketStage;
     @FXML // Can cause bugs since it changes main.lastController!
     public void setBasketPane(ActionEvent actionEvent) throws IOException {
         Scene scene = new Scene(Main.loadFXMLA(("UserBasket")));
         Stage stage = new Stage();
+        basketStage = stage;
         stage.setScene(scene);
         stage.show();
     }

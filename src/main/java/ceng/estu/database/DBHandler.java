@@ -719,7 +719,7 @@ public class DBHandler {
 
     public static boolean removeFromUserBasket(int shoeId) throws SQLException{
         Statement st = con.createStatement();
-        String query = "DELETE FROM basket_contains WHERE shoeId = " + shoeId + " AND username = \"" + User.user.getUsername() + "\"";
+        String query = "DELETE FROM basket_contains WHERE shoeId = " + shoeId + " AND username = \"" + User.user.getUsername() + "\" LIMIT 1";
         System.out.println( MyDate.refresh() + " : " + query.replace("\n",""));
         return st.execute(query);
     }
@@ -754,6 +754,7 @@ public class DBHandler {
         Statement st = con.createStatement();
         ResultSet rs = st.executeQuery(query);
         rs.next();
+        System.out.println( MyDate.refresh() + " : " + query.replace("\n",""));
 
         String a;
 
@@ -772,6 +773,7 @@ public class DBHandler {
         Statement st = con.createStatement();
         ResultSet rs = st.executeQuery(query);
         rs.next();
+        System.out.println( MyDate.refresh() + " : " + query.replace("\n",""));
 
         return rs.getInt(1);
     }
@@ -784,7 +786,7 @@ public class DBHandler {
                 " FROM model GROUP BY brandName ORDER BY indicator DESC";
 
         Statement st = con.createStatement();
-
+        System.out.println( MyDate.refresh() + " : " + query.replace("\n",""));
         ResultSet rs = st.executeQuery(query);
 
         rs.next();
@@ -801,7 +803,7 @@ public class DBHandler {
                 " ORDER BY sell_Count DESC";
 
         Statement st = con.createStatement();
-
+        System.out.println( MyDate.refresh() + " : " + query.replace("\n",""));
         ResultSet rs = st.executeQuery(query);
 
         rs.next();
@@ -819,7 +821,7 @@ public class DBHandler {
                 " ORDER BY sumprice DESC";
 
         Statement st = con.createStatement();
-
+        System.out.println( MyDate.refresh() + " : " + query.replace("\n",""));
         ResultSet rs = st.executeQuery(query);
 
         rs.next();

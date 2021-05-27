@@ -146,14 +146,14 @@ public class LastBoughtsController implements Initializable {
             vbox2.getChildren().addAll(new Text(model.toString()), hBox2, addBasketBtn);
 
 
-            String path2 = Utilities.getImagePath( model.getType() );
+            //String path2 = Utilities.getImagePath( model.getType() );
 
-            File img2 = new File(path2);
+            //File img2 = new File(path2);
             ImageView iv2 = null;
 
             try {
-                iv2 = new ImageView(new Image(String.valueOf(img2.toURI().toURL())));
-            } catch (MalformedURLException malformedURLException) {
+                iv2 = new ImageView(new Image(Utilities.getImagePath( model.getType() ) ) );
+            } catch (Exception malformedURLException) {
                 malformedURLException.printStackTrace();
             }
 
