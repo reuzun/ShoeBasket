@@ -5,10 +5,8 @@ import ceng.estu.utilities.AlertSystem;
 import ceng.estu.utilities.ErrorType;
 import ceng.estu.utilities.MyDate;
 import ceng.estu.utilities.SortType;
-import com.mysql.cj.protocol.Resultset;
 
-import javax.swing.plaf.nimbus.State;
-import javax.xml.transform.Result;
+
 import java.sql.*;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -461,6 +459,13 @@ public class DBHandler {
 
     //---- Does not log
     public static boolean insertShoe(int modelId, int size, String color, int count) throws SQLException {
+
+        Statement st = con.createStatement();
+        ResultSet rs = st.executeQuery("SELECT * FROM shoe WHERE modelId = " + modelId + " AND size = " + size + " AND color = \"" + color + "\"");
+        while(rs.next()){
+            throw new RuntimeException("This item already exist.");
+        }
+
         PreparedStatement ps = con.prepareStatement("INSERT INTO SHOE VALUES (? ,DEFAULT ,?,?,?)");
         ps.setInt(1, modelId);
         ps.setInt(2, size);

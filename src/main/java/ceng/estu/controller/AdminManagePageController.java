@@ -338,6 +338,12 @@ public class AdminManagePageController implements Initializable {
             AlertSystem.getAlert(ErrorType.ERROR, "This model has shoes that is in relation with some shoes \n" +
                     "so that it is not allowed to delete it!");
         }
+
+        try{
+            AdminPageController.helper();
+        }catch (Exception e){
+            AlertSystem.getAlert(ErrorType.INFORMATION,"Your job is done but you are supposed to refresh your page.");
+        }
     }
 
     @javafx.fxml.FXML
@@ -352,6 +358,12 @@ public class AdminManagePageController implements Initializable {
         }catch (Exception e){
             AlertSystem.getAlert(ErrorType.ERROR, "This shoe is sold before. To let Database have datas which is belong to past\n" +
                     "you are unable to delete it!");
+        }
+
+        try{
+            AdminPageController.helper();
+        }catch (Exception e){
+            AlertSystem.getAlert(ErrorType.INFORMATION,"Your job is done but you are supposed to refresh your page.");
         }
     }
 
@@ -368,8 +380,17 @@ public class AdminManagePageController implements Initializable {
 
             AlertSystem.getAlert(ErrorType.INFORMATION, "Done!");
 
-        }catch (Exception e){
+        }catch (SQLException e){
+            //e.printStackTrace();
             AlertSystem.getAlert(ErrorType.ERROR, "An error has ocurred!");
+        }catch (Exception e){
+            AlertSystem.getAlert(ErrorType.ERROR, "This item is alread exists.");
+        }
+
+        try{
+            resetComboBoxes();
+        }catch (Exception e){
+            AlertSystem.getAlert(ErrorType.INFORMATION,"Your job is done but you are supposed to refresh your page.");
         }
     }
 
@@ -387,6 +408,12 @@ public class AdminManagePageController implements Initializable {
 
         }catch (Exception e){
             AlertSystem.getAlert(ErrorType.ERROR, "An error has ocurred!");
+        }
+
+        try{
+            resetComboBoxes();
+        }catch (Exception e){
+            AlertSystem.getAlert(ErrorType.INFORMATION,"Your job is done but you are supposed to refresh your page.");
         }
     }
 
