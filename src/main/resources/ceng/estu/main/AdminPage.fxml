@@ -10,7 +10,7 @@
    <children>
       <HBox prefHeight="100.0" prefWidth="1280.0" style="-fx-background-color: #e4e4e4;">
          <children>
-            <Label alignment="CENTER" contentDisplay="RIGHT" prefHeight="106.0" prefWidth="227.0" text="Add Product">
+            <Label alignment="CENTER" contentDisplay="RIGHT" prefHeight="106.0" prefWidth="227.0" text="Operations">
                <graphic>
                   <Button mnemonicParsing="false" onAction="#setAddProductPane" text="Search" />
                </graphic>

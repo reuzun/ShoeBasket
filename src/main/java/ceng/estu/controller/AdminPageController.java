@@ -30,7 +30,7 @@ public class AdminPageController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
-            adminPage = new Scene(Main.loadFXML("AdminMainPage"));
+            adminPage = new Scene(Main.loadFXML("AdminManagePage"));
         } catch (IOException e) {
             e.printStackTrace();
         }

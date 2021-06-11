@@ -178,7 +178,8 @@ public class AdminManagePageController implements Initializable {
                 try {
                     updateModel();
                 } catch (IOException ex) {
-                    ex.printStackTrace();
+                    AlertSystem.getAlert(ErrorType.ERROR, "Error code : 181AMPC");
+                    return;
                 }
             }
         });
@@ -192,6 +193,7 @@ public class AdminManagePageController implements Initializable {
             );
         }catch (Exception e){
             AlertSystem.getAlert(ErrorType.ERROR,"Please enter at least 1 paramater. If another error occurs we dont know why :D");
+            return;
         }
 
 
@@ -255,6 +257,7 @@ public class AdminManagePageController implements Initializable {
             );
         }catch (Exception e){
             AlertSystem.getAlert(ErrorType.ERROR,"Please enter at least 1 paramater. If another error occurs we dont know why :D");
+            return;
         }
 
         tv.getItems().addAll( list );
