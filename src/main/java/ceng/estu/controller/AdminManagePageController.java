@@ -96,6 +96,11 @@ public class AdminManagePageController implements Initializable {
         updateRemoveShoeIdBox.getItems().addAll(DBHandler.getshoeIds());
         updateRemoveModelIdBox.getItems().addAll(obj);
         addShoeModelIdBox.getItems().addAll(obj);
+
+        // A hack for fast rendering the items in combobox with lots of item!
+        addShoeModelIdBox.getProperties().put("comboBoxRowsToMeasureWidth", 10);
+        updateRemoveModelIdBox.getProperties().put("comboBoxRowsToMeasureWidth", 10);
+        updateRemoveShoeIdBox.getProperties().put("comboBoxRowsToMeasureWidth", 10);
     }
 
     @javafx.fxml.FXML
