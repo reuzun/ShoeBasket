@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -49,10 +50,8 @@
       </Text>
       <Button layoutX="334.0" layoutY="233.0" mnemonicParsing="false" onAction="#searchModel" text="Search Model" />
       <Button layoutX="334.0" layoutY="497.0" mnemonicParsing="false" onAction="#searchShoe" text="Search Shoe" />
-      <TextField fx:id="updateRemoveModelID" layoutX="577.0" layoutY="107.0" />
       <Text layoutX="499.0" layoutY="124.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ModelID:" />
       <Button layoutX="786.0" layoutY="94.0" mnemonicParsing="false" onAction="#updateModel" prefHeight="55.0" prefWidth="150.0" text="Update Model" />
-      <TextField fx:id="updateRemoveShoeID" layoutX="583.0" layoutY="343.0" />
       <Text layoutX="503.0" layoutY="360.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ShoeID:" />
       <Separator layoutX="473.0" layoutY="1.0" orientation="VERTICAL" prefHeight="640.0" prefWidth="15.0" />
       <Separator layoutX="950.0" layoutY="2.0" orientation="VERTICAL" prefHeight="640.0" prefWidth="15.0" />
@@ -60,12 +59,14 @@
       <Button layoutX="786.0" layoutY="168.0" mnemonicParsing="false" onAction="#removeModel" prefHeight="55.0" prefWidth="150.0" text="Remove Model" />
       <Button layoutX="786.0" layoutY="322.0" mnemonicParsing="false" onAction="#updateShoe" prefHeight="55.0" prefWidth="150.0" text="Update Shoe" />
       <Button layoutX="786.0" layoutY="396.0" mnemonicParsing="false" onAction="#removeShoe" prefHeight="55.0" prefWidth="150.0" text="Remove Shoe" />
-      <TextField fx:id="addShoeModelID" layoutX="124.0" layoutY="343.0" />
       <Text layoutX="961.0" layoutY="83.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User count : " />
       <Text layoutX="965.0" layoutY="112.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Best Seller Shoe :" />
       <Text layoutX="962.0" layoutY="145.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Best Seller Model :" />
       <Text layoutX="965.0" layoutY="175.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Best Buyer:" />
       <Button layoutX="1140.0" layoutY="233.0" mnemonicParsing="false" onAction="#calculateQueries" text="Calculate" />
       <Text layoutX="963.0" layoutY="208.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Best voted Model:" />
+      <ComboBox fx:id="updateRemoveShoeIdBox" layoutX="586.0" layoutY="343.0" prefWidth="150.0" />
+      <ComboBox fx:id="updateRemoveModelIdBox" layoutX="570.0" layoutY="107.0" prefWidth="150.0" />
+      <ComboBox fx:id="addShoeModelIdBox" layoutX="128.0" layoutY="343.0" prefWidth="150.0" />
    </children>
 </AnchorPane>

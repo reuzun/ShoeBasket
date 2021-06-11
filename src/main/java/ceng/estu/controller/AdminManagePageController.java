@@ -48,18 +48,18 @@ public class AdminManagePageController implements Initializable {
     public TextField modelName;
     @FXML
     public TextField brandName;
-    @FXML
-    public TextField updateRemoveModelID;
-    @FXML
-    public TextField updateRemoveShoeID;
-    @FXML
-    public TextField addShoeModelID;
 
     Stage updateStage = new Stage();
     AnchorPane updatePane = new AnchorPane();
 
     Stage searchStage = new Stage();
     AnchorPane searchPane = new AnchorPane();
+    @FXML
+    private ComboBox<String> updateRemoveShoeIdBox;
+    @FXML
+    private ComboBox<String> updateRemoveModelIdBox;
+    @FXML
+    private ComboBox<String> addShoeModelIdBox;
 
 
     @Override
@@ -78,19 +78,36 @@ public class AdminManagePageController implements Initializable {
         for(int i = 33 ; i < 45 ; i++)
             shoeSizeChoiceBox.getItems().add(i);
 
+        try {
+            resetComboBoxes();
+        }catch (Exception e){
+            AlertSystem.getAlert(ErrorType.INFORMATION," There might be some errors. Please contact us. ");
+        }
 
+    }
+
+    private void resetComboBoxes() throws SQLException {
+        updateRemoveShoeIdBox.getItems().add("");
+        updateRemoveModelIdBox.getItems().add("");
+        addShoeModelIdBox.getItems().add("");
+
+        var obj = DBHandler.getmodelIds();
+
+        updateRemoveShoeIdBox.getItems().addAll(DBHandler.getshoeIds());
+        updateRemoveModelIdBox.getItems().addAll(obj);
+        addShoeModelIdBox.getItems().addAll(obj);
     }
 
     @javafx.fxml.FXML
     public void updateShoe() throws IOException, URISyntaxException, SQLException {
         //updatePane.getChildren().add(txt); can be edited dynamically
         //Shoe shoe = new Shoe(4,7,34,"Black",123);
-        if(updateRemoveShoeID.getText().length() == 0) {
+        if(updateRemoveShoeIdBox.getValue().length() == 0) {
             AlertSystem.getAlert(ErrorType.ERROR, "Please enter a valid input!");
             return;
         }
 
-        Shoe shoe = DBHandler.getShoeByShoeId( updateRemoveShoeID.getText() );
+        Shoe shoe = DBHandler.getShoeByShoeId( updateRemoveShoeIdBox.getValue() );
 
         Scene scene = new Scene(Main.loadFXML("UpdateShoePage"));
         ((UpdateShoePageController)Main.getLastLoader()).modelID.setText(String.valueOf(shoe.getModelID()));
@@ -117,11 +134,11 @@ public class AdminManagePageController implements Initializable {
     public void updateModel() throws IOException {
         //get model from modelID
 
-        if(updateRemoveModelID.getText().length() == 0) {
+        if(updateRemoveModelIdBox.getValue().length() == 0) {
             AlertSystem.getAlert(ErrorType.ERROR, "Please enter a valid input!");
             return;
         }
-        Model model = DBHandler.getModelByModelId( Integer.parseInt(updateRemoveModelID.getText()) );
+        Model model = DBHandler.getModelByModelId( Integer.parseInt(updateRemoveModelIdBox.getValue()) );
 
 
         Scene scene = new Scene(Main.loadFXML("UpdateModelPage"));
@@ -174,7 +191,7 @@ public class AdminManagePageController implements Initializable {
 
         tv.setOnMouseClicked(e -> {
             if(e.getClickCount() == 2) {
-                updateRemoveModelID.setText(String.valueOf(tv.getSelectionModel().getSelectedItem().getModelID()));
+                updateRemoveModelIdBox.setValue(String.valueOf(tv.getSelectionModel().getSelectedItem().getModelID()));
                 try {
                     updateModel();
                 } catch (IOException ex) {
@@ -189,7 +206,7 @@ public class AdminManagePageController implements Initializable {
             list = DBHandler.getModelsByKeyValues("str", "BrandName", brandName.getText(),
                     "strlike", "ModelName", modelName.getText(),
                     "str", "Type", String.valueOf(modelType.getSelectionModel().getSelectedItem()),
-                    "int", "modelid", updateRemoveModelID.getText()
+                    "int", "modelid", updateRemoveModelIdBox.getValue()
             );
         }catch (Exception e){
             AlertSystem.getAlert(ErrorType.ERROR,"Please enter at least 1 paramater. If another error occurs we dont know why :D");
@@ -239,7 +256,7 @@ public class AdminManagePageController implements Initializable {
 
         tv.setOnMouseClicked(e -> {
             if(e.getClickCount() == 2) {
-                updateRemoveShoeID.setText(String.valueOf(tv.getSelectionModel().getSelectedItem().getShoeID()));
+                updateRemoveShoeIdBox.setValue(String.valueOf(tv.getSelectionModel().getSelectedItem().getShoeID()));
                 try {
                     updateShoe();
                 } catch (IOException | URISyntaxException | SQLException ex) {
@@ -250,10 +267,10 @@ public class AdminManagePageController implements Initializable {
 
         List<Shoe> list = null;
         try {
-             list = DBHandler.getShoesByKeyValues("int", "modelId", addShoeModelID.getText(),
+             list = DBHandler.getShoesByKeyValues("int", "modelId", addShoeModelIdBox.getValue(),
                     "str", "Color", shoeColorChoiceBox.getSelectionModel().getSelectedItem(),
                     "int", "Size", String.valueOf(shoeSizeChoiceBox.getSelectionModel().getSelectedItem()),
-                    "int", "shoeid", updateRemoveShoeID.getText()
+                    "int", "shoeid", updateRemoveShoeIdBox.getValue()
             );
         }catch (Exception e){
             AlertSystem.getAlert(ErrorType.ERROR,"Please enter at least 1 paramater. If another error occurs we dont know why :D");
@@ -312,7 +329,7 @@ public class AdminManagePageController implements Initializable {
     public void removeModel(ActionEvent actionEvent) {
         try {
             DBHandler.deleteModelByModelId(
-                    Integer.parseInt( updateRemoveModelID.getText() )
+                    Integer.parseInt(updateRemoveModelIdBox.getValue() )
             );
 
             AlertSystem.getAlert(ErrorType.INFORMATION, "Done!");
@@ -327,7 +344,7 @@ public class AdminManagePageController implements Initializable {
     public void removeShoe(ActionEvent actionEvent) {
         try {
             DBHandler.deleteShoeByShoeId(
-                    updateRemoveShoeID.getText()
+                    updateRemoveShoeIdBox.getValue()
             );
 
             AlertSystem.getAlert(ErrorType.INFORMATION, "Done!");
@@ -343,7 +360,7 @@ public class AdminManagePageController implements Initializable {
     public void addShoe(ActionEvent actionEvent) throws SQLException {
         try {
             DBHandler.insertShoe(
-                    Integer.parseInt(addShoeModelID.getText()),
+                    Integer.parseInt(addShoeModelIdBox.getValue()),
                     shoeSizeChoiceBox.getSelectionModel().getSelectedItem(),
                     shoeColorChoiceBox.getSelectionModel().getSelectedItem(),
                     Integer.parseInt(shoeCount.getText())

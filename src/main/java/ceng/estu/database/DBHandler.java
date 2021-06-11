@@ -840,4 +840,38 @@ public class DBHandler {
 
     }
 
+    public static List<String> getmodelIds() throws SQLException {
+        Statement st = con.createStatement();
+        String query = "SELECT modelid from model order by modelid desc";
+
+        ResultSet rs = st.executeQuery(query);
+
+        List<String> arr = new ArrayList<>();
+
+        while(rs.next()){
+            int str = rs.getInt(1);
+            arr.add( String.valueOf(str) );
+        }
+
+        System.out.println( MyDate.refresh() + " : " + query.replace("\n",""));
+        return arr;
+    }
+
+    public static List<String> getshoeIds() throws SQLException {
+        Statement st = con.createStatement();
+        String query = "SELECT shoeid from shoe order by shoeid DESC";
+
+        ResultSet rs = st.executeQuery(query);
+
+        List<String> arr = new ArrayList<>();
+
+        while(rs.next()){
+            int str = rs.getInt(1);
+            arr.add( String.valueOf(str) );
+        }
+
+        System.out.println( MyDate.refresh() + " : " + query.replace("\n",""));
+        return arr;
+    }
+
 }

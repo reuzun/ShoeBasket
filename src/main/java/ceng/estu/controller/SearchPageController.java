@@ -105,14 +105,18 @@ public class SearchPageController implements Initializable {
         double upperBound = upperBoundTxt.getText().length() > 0 ? Double.parseDouble( upperBoundTxt.getText() ) : 0;
         SortType type = sortTypeBox.getSelectionModel().getSelectedItem();
 
-        List<Model> modelList = DBHandler.searchModelsAccordingToParams(
-                modelName,
-                lowerBound,
-                upperBound,
-                type
-        );
+        try {
+            List<Model> modelList = DBHandler.searchModelsAccordingToParams(
+                    modelName,
+                    lowerBound,
+                    upperBound,
+                    type
+            );
 
-        printShoes(modelList);
+            printShoes(modelList);
+        }catch (Exception e){
+            AlertSystem.getAlert(ErrorType.ERROR, "There are some problems about inputs of search.");
+        }
     }
 
 
