@@ -584,7 +584,7 @@ public class DBHandler {
             List<Integer> sizeList = new ArrayList<>();
 
             Statement st = con.createStatement();
-            String query = "SELECT size FROM model INNER JOIN shoe ON model.ModelID = shoe.ModelID WHERE model.ModelID = " + modelId;
+            String query = "SELECT DISTINCT size FROM model INNER JOIN shoe ON model.ModelID = shoe.ModelID WHERE model.ModelID = " + modelId;
             System.out.println( MyDate.refresh() + " : " + query.replace("\n",""));
             ResultSet rs = st.executeQuery(query);
 
